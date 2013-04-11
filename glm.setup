@@ -1,0 +1,8 @@
+
+
+(compile -s -c++ glm.scm -J)
+(compile -s -c++ glm.import.scm)
+
+(system "csi -s tests/run.scm")
+
+;;(install-extension)

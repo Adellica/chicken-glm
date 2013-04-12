@@ -104,4 +104,10 @@
  (test (uvec3 0 0 0) (cross/uvec3 (uvec3 1 2 3) (uvec3 1 2 3))) ;; TODO: how to test this?
  )
 
+(test-group
+ "determinant"
+ (test -13.0 (determinant/mat3(f32vector 1 3 4
+                                         4 5 6
+                                         4 3 5))))
+
 (print (sin/vec2 (vec2 3.14 (/ 3.14 2))))

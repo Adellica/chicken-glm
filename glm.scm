@@ -264,7 +264,9 @@
     (postline)))
 
 
-
+(template
+ `((T mat3 mat4))
+ (define determinant/T (glm float "return(" "glm::determinant(" T ")" ")")))
 
 ;; lookat cross translate rotate degrees radians
 ;; vec * scalar

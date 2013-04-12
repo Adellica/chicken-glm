@@ -3,6 +3,20 @@
 
 
 (test-group
+ "vec?"
+ (test #t (vec2? (make-vec2 0)))
+ (test #f (vec2? (make-vec3 0)))
+ (test #f (vec2? (make-vec4 0)))
+
+ (test #f (vec3? (make-vec2 0)))
+ (test #t (vec3? (make-vec3 0)))
+ (test #f (vec3? (make-vec4 0)))
+
+ (test #f (vec4? (make-vec2 0)))
+ (test #f (vec4? (make-vec3 0)))
+ (test #t (vec4? (make-vec4 0))))
+
+(test-group
  "matrix constructors"
  (test '#f32(
              1.0 0.0 0.0 0.0

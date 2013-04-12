@@ -170,6 +170,10 @@
 (define (make-mat3 fill)  (make-f32vector  9 fill))
 (define (make-mat4 fill)  (make-f32vector 16 fill))
 
+;; OBS: we won't be able to distinguish between vec4 and mat2 for example
+(template
+ `((D 2 3 4))
+ (define (vecD? vec) (and (f32vector? vec) (= (f32vector-length vec) D))))
 
 ;; *** matrix constructors
 

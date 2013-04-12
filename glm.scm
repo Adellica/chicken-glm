@@ -175,21 +175,16 @@
  `((D 2 3 4))
  (define (vecD? vec) (and (f32vector? vec) (= (f32vector-length vec) D))))
 
-;; *** matrix constructors
 (define (mat3? mat) (and (f32vector? mat) (= (f32vector-length mat)  9)))
 (define (mat4? mat) (and (f32vector? mat) (= (f32vector-length mat) 16)))
 
+;;; matrix constructors
 (template
  `((T mat3 mat4))
  (define T! (make-glm-operation void T "=" "glm::T(" float ")"))
  (define (T diagonal) (with-destination (make-T #f) T! diagonal)))
 
-
-;;(pp (expand '(template `((T mat6) (R ,(lambda (t) (print "from R: " t) "foodidoo"))) one two T R "partial R")))
-;; (pp (expand '(template `((T vec2 vec3) (R ,(lambda (t) (conc t "++" (value-type t) "++"))))
-;;                        (define T/foo/T something R "return T" (returns T)))))
-
-
+;;; vector operations
 (template
  `((T  vec2  vec3  vec4
        uvec2 uvec3 uvec4
@@ -199,6 +194,8 @@
  ;; unary operators
  (define length/T (make-glm-operation R "return(" "glm::length(" T "));"))
  
+
+ ;; prefix binary operators
  (template `((OP "dot" "distance"))
            (define OP/T (make-glm-operation R "return(" "glm::" "OP" "(" T "," T "));"))))
 

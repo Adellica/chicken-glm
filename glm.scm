@@ -72,7 +72,7 @@
                            (cons  (conc " " x " ") result))))
                (reverse result)))))
 
-(define-syntax make-glm-operation
+(define-syntax glm
   (er-macro-transformer
    (lambda (x r t)
      (let* ((return-type (cadr x))
@@ -181,7 +181,7 @@
 ;;; matrix constructors
 (template
  `((T mat3 mat4))
- (define T! (make-glm-operation void T "=" "glm::T(" float ")"))
+ (define T! (glm void T "=" "glm::T(" float ")"))
  (define (T diagonal) (with-destination (make-T #f) T! diagonal)))
 
 ;;; vector operations
@@ -192,18 +192,18 @@
    (R ,value-type))
 
  ;; unary operators
- (define length/T (make-glm-operation R "return(" "glm::length(" T "));"))
+ (define length/T (glm R "return(" "glm::length(" T "));"))
  
 
  ;; prefix binary operators
  (template `((OP "dot" "distance"))
-           (define OP/T (make-glm-operation R "return(" "glm::" "OP" "(" T "," T "));"))))
+           (define OP/T (glm R "return(" "glm::" "OP" "(" T "," T "));"))))
 
 ;; infix operators
 (template
  `((T mat3 mat4 vec2 vec3 vec4))
  (template `((OP + - * /) )         
-           (define OP/T/T! (make-glm-operation void T "=" T "OP" T))
+           (define OP/T/T! (glm void T "=" T "OP" T))
            (define (OP/T/T mat1 mat2) (with-destination (make-T #f) OP/T/T! mat1 mat2))))
 
  ;; vector unary-operators
@@ -220,12 +220,12 @@
               ;;   exp      exp2     inversesqrt log   log2  sqrt
               ;;   normalize
               ))
-           (define OP/T! (make-glm-operation void T "=" "glm::OP(" T ")"))
+           (define OP/T! (glm void T "=" "glm::OP(" T ")"))
            (define (OP/T vec) (with-destination (make-T #f) OP/T! vec))))
 
 (template
  `((T mat3 mat4))
- (define transpose/T! (make-glm-operation void T "=" "glm::transpose(" T ")"))
+ (define transpose/T! (glm void T "=" "glm::transpose(" T ")"))
  (define (transpose/T mat)  (with-destination (make-T #f) transpose/T! mat)))
 
 (define (transpose/delegate mat)

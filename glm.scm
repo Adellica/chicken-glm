@@ -153,11 +153,14 @@
 
 (define-external (ivec2 (int x) (int y))                         scheme-object  (s32vector x y))
 (define-external (ivec3 (int x) (int y) (int z))                 scheme-object  (s32vector x y z))
-(define-external (ivec4 (float x) (float y) (float z) (float w)) scheme-object  (s32vector x y z w))
+(define-external (ivec4 (int x) (int y) (int z) (int w)) scheme-object  (s32vector x y z w))
 
-(define-external (uvec2 (int x) (int y))                         scheme-object  (u32vector x y))
-(define-external (uvec3 (int x) (int y) (int z))                 scheme-object  (u32vector x y z))
-(define-external (uvec4 (float x) (float y) (float z) (float w)) scheme-object  (u32vector x y z w))
+(define-external (uvec2 (unsigned-int x) (unsigned-int y))
+  scheme-object  (u32vector x y))
+(define-external (uvec3 (unsigned-int x) (unsigned-int y) (unsigned-int z))
+  scheme-object  (u32vector x y z))
+(define-external (uvec4 (unsigned-int x) (unsigned-int y) (unsigned-int z) (unsigned-int w))
+  scheme-object  (u32vector x y z w))
 
 (template
  `((D 2 3 4))

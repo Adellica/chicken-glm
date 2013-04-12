@@ -97,4 +97,11 @@
  (test transpose/mat4 (transpose/delegate (make-mat4 #f)))
  (test transpose/mat3 (transpose/delegate (make-mat3 #f))))
 
+(test-group
+ "cross"
+ (test (vec3 -30 60 -30) (cross/vec3 (vec3 10 20 30) (vec3 4 5 6)))
+ (test (ivec3 -30 60 -30) (cross/ivec3 (ivec3 10 20 30) (ivec3 4 5 6)))
+ (test (uvec3 0 0 0) (cross/uvec3 (uvec3 1 2 3) (uvec3 1 2 3))) ;; TODO: how to test this?
+ )
+
 (print (sin/vec2 (vec2 3.14 (/ 3.14 2))))

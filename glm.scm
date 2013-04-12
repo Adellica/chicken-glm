@@ -204,6 +204,13 @@
  (template `((OP "dot" "distance"))
            (define OP/T (glm R "return(" "glm::" "OP" "(" T "," T "));"))))
 
+;; cross is only defined for vec3
+(template
+ `((T vec3 ivec3 uvec3))
+ (define cross/T! (glm void T "=" "glm::cross(" T "," T ")"))
+ (define (cross/T veca vecb) (with-destination (make-T #f) cross/T! veca vecb)))
+
+
 ;; infix operators
 (template
  `((T mat3 mat4 vec2 vec3 vec4))

@@ -74,6 +74,17 @@
                            (cons  (conc " " x " ") result))))
                (reverse result)))))
 
+;; helper for writing foreign-lambdas to glm
+;; arguments are: (glm <foreign return-type> args..)
+;; foreign return-type is return-type of the foreign-lambda
+;; args are a sequence of strings and symbols, where the symbols
+;; represent glm types (eg vec3, mat4) and are added as
+;; input-arguments. strings are forwarded to C
+;; directly and don't affect argument list.
+;; 
+;; eg. (glm float "return(" "glm::length(" vec3 ")" ")")
+;; will make a foreign-lambda that does `glm::length(some_vec3). types are
+;; cast directly from pointers (srfi-4 vectors) so care must be taken.
 (define-syntax glm
   (er-macro-transformer
    (lambda (x r t)

@@ -176,6 +176,8 @@
  (define (vecD? vec) (and (f32vector? vec) (= (f32vector-length vec) D))))
 
 ;; *** matrix constructors
+(define (mat3? mat) (and (f32vector? mat) (= (f32vector-length mat)  9)))
+(define (mat4? mat) (and (f32vector? mat) (= (f32vector-length mat) 16)))
 
 (template
  `((T mat3 mat4))

@@ -1,4 +1,3 @@
-
 (module glm *
 (import chicken scheme foreign)
 
@@ -29,6 +28,9 @@
      ((mat3 mat4) 'float)
      ((dmat3 dmat4) 'double)
      (else (error "no value-type for" glmtype))))
+
+ ;; we apparently need this in order for value-type to be visible by
+ ;; compile-time 'eval'
  (define glm#value-type value-type))
 
 ;; bug!? without this, we get "warning: reference to unbound variable
@@ -198,7 +200,7 @@
  (define length/T (glm R "return(" "glm::length(" T "));"))
  
 
- ;; prefix binary operators
+ ;; prefix binary operators, primitive return type
  (template `((OP "dot" "distance"))
            (define OP/T (glm R "return(" "glm::" "OP" "(" T "," T "));"))))
 

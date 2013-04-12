@@ -1,4 +1,3 @@
-(print "\n\n\n")
 (use glm test)
 
 

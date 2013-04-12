@@ -8,19 +8,7 @@
 #include <glm/glm.hpp>
 <#
 
-(define-external (vec2 (float x) (float y))           scheme-object  (f32vector x y))
-(define-external (vec3 (float x) (float y) (float z)) scheme-object  (f32vector x y z))
 
-(define-external (ivec2 (int x) (int y))              scheme-object  (s32vector x y))
-(define-external (ivec3 (int x) (int y) (int z))      scheme-object  (s32vector x y z))
-
-
-
-(define (make-mat3 fill)  (make-f32vector  9 fill))
-(define (make-mat4 fill)  (make-f32vector 16 fill))
-
-(define (ivec2.x vec) (s32vector-ref vec 0))
-(define (ivec2.y vec) (s32vector-ref vec 1))
 
 (define (srfi4-vector-ref vec idx)
   (define (check! p) (if p (error "vector of invalid length")))
@@ -49,9 +37,9 @@
 
 (define-for-syntax (glmtype->schemetype type)
   (case type
-    ((vec2  vec3  vec4 mat4 mat3) 'f32vector)
-    ((ivec2 ivec3 ivec4) 's32vector)
-    ((uvec2 uvec3 uvec4) 'u32vector)
+    ((vec vec2  vec3  vec4 mat4 mat3) 'f32vector)
+    ((ivec ivec2 ivec3 ivec4) 's32vector)
+    ((uvec uvec2 uvec3 uvec4) 'u32vector)
     ((float double int) type)
     (else (error "cannot convert to scheme-type" type))))
 
@@ -112,31 +100,23 @@
          `(let ((,%dest ,constructor))
             (,head ,%dest ,@rest) ,%dest))))))
 
-(define mat3! (make-glm-operation void mat3 "=" "glm::mat3(" float ")"))
-(define mat4! (make-glm-operation void mat4 "=" "glm::mat4(" float ")"))
-;; (pp (expand '(make-glm-operation void mat4 "=" "glm::mat4(" float ")")))
 
-(define (mat3 diagonal) (with-destination (make-mat3 #f) mat3! diagonal))
-(define (mat4 diagonal) (with-destination (make-mat4 #f) mat4! diagonal))
-
-
-
-(define length/ivec2 (make-glm-operation int "return(" "glm::length(" ivec2 "));"))
-(define length/ivec3 (make-glm-operation int "return(" "glm::length(" ivec3 "));"))
-(define length/ivec4 (make-glm-operation int "return(" "glm::length(" ivec4 "));"))
-
-(define length/vec2 (make-glm-operation float "return(" "glm::length(" vec2 "));"))
-(define length/vec3 (make-glm-operation float "return(" "glm::length(" vec3 "));"))
-(define length/vec4 (make-glm-operation float "return(" "glm::length(" vec4 "));"))
 
 (begin-for-syntax
 (define (rewrite x search replace)
-   (if (list? x)
-       (map (lambda (body) (rewrite body search replace)) x)
-       ((if (symbol? x) string->symbol values)
-        (irregex-replace/all (conc search)
-                             (if (symbol? x) (symbol->string x) x)
-                             replace)))))
+  (if (list? x)
+      (map (lambda (body) (rewrite body search replace)) x)
+      (if (eq? x search)
+          (if (procedure? replace) (replace x) replace)
+          ;; convert strings back to symbols if neccessary
+          ((if (symbol? x) string->symbol values)
+           (if (or (symbol? x) (string? x))
+               (irregex-replace/all (conc search) (conc x)
+                                    ((cond ((symbol? replace) symbol->string)
+                                           ((number? replace) number->string)
+                                           (else values)) replace))
+               x))))))
+
 
 ;; (rewrite `(define length/T (glm void "return(" T "," T ");")) "T" "vec3")
 
@@ -148,20 +128,64 @@
             (rspec (cdr spec))   ;; secondary rewriters
             (search (car tspec)) ;; <template>
             (lst (cdr tspec))    ;; (<elements> ...)
-            (body (caddr x)))
+            (body (cddr x)))
+       
        (cons (r 'begin)
-             (map (lambda (replace)
-                    (fold
-                     ;; second rewrite (optional lambdas)
-                     (lambda (s/r body)
-                       (let ((s (car s/r))
-                             (proc (cadr s/r)))
-                         (rewrite body s (lambda (match) (conc (proc replace))))))
-                     ;; first rewrite to replace tspec
-                     (rewrite body search (conc replace))
-                     rspec))
-                  lst))))))
+             (apply append
+                    (map (lambda (replace)
+                           (fold
+                            ;; second rewrite (optional lambdas)
+                            (lambda (s/r body)
+                              (let ((s (car s/r))
+                                    (proc (cadr s/r)))
+                                (rewrite body s (lambda (match) (proc replace)))))
+                            ;; first rewrite to replace tspec
+                            (rewrite body search replace)
+                            rspec))
+                         lst)))))))
 
+;; *** vector constructors
+;; TODO: add vec4
+
+(define-external (vec2 (float x) (float y))           scheme-object  (f32vector x y))
+(define-external (vec3 (float x) (float y) (float z)) scheme-object  (f32vector x y z))
+
+(define-external (ivec2 (int x) (int y))              scheme-object  (s32vector x y))
+(define-external (ivec3 (int x) (int y) (int z))      scheme-object  (s32vector x y z))
+
+(define-external (uvec2 (int x) (int y))              scheme-object  (u32vector x y))
+(define-external (uvec3 (int x) (int y) (int z))      scheme-object  (u32vector x y z))
+
+(pp (expand '(template
+              `((D 2 3 4))
+              (define (make-vecD  fill) (make-f32vector D fill))
+              (define (make-ivecD fill) (make-s32vector D fill))
+              (define (make-uvecD fill) (make-u32vector D fill)))))
+
+(define (make-vec3 fill) (make-f32vector 3 fill))
+
+;; TODO: add mat3x4, mat4x3 etc
+(define (make-mat3 fill)  (make-f32vector  9 fill))
+(define (make-mat4 fill)  (make-f32vector 16 fill))
+
+
+;; *** matrix constructors
+
+(template
+ `((T mat3 mat4))
+ (define T! (make-glm-operation void T "=" "glm::T(" float ")"))
+ (define (T diagonal) (with-destination (make-T #f) T! diagonal)))
+
+;; TODO: use templates
+(define length/ivec2 (make-glm-operation int "return(" "glm::length(" ivec2 "));"))
+(define length/ivec3 (make-glm-operation int "return(" "glm::length(" ivec3 "));"))
+(define length/ivec4 (make-glm-operation int "return(" "glm::length(" ivec4 "));"))
+
+(define length/vec2 (make-glm-operation float "return(" "glm::length(" vec2 "));"))
+(define length/vec3 (make-glm-operation float "return(" "glm::length(" vec3 "));"))
+(define length/vec4 (make-glm-operation float "return(" "glm::length(" vec4 "));"))
+
+;;(pp (expand '(template `((T mat6) (R ,(lambda (t) (print "from R: " t) "foodidoo"))) one two T R "partial R")))
 ;; (pp (expand '(template `((T vec2 vec3) (R ,(lambda (t) (conc t "++" (value-type t) "++"))))
 ;;                        (define T/foo/T something R "return T" (returns T)))))
 
@@ -175,74 +199,31 @@
  (template `((OP "dot" "distance"))
            (define OP/T (make-glm-operation R "return(" "glm::" "OP" "(" T "," T "));"))))
 
-(print "dot:" (dot/vec2 (vec2 2 -3) (vec2 10 100)))
-
-(print "** length " (length/ivec3 (ivec3 10 10 -10)))
-(print "** length " (length/vec3 (vec3 1 1 1)))
-
-(define */mat4/mat4! (make-glm-operation void mat4 "=" mat4 "*" mat4))
-(define +/mat4/mat4! (make-glm-operation void mat4 "=" mat4 "+" mat4))
-
-(define (*/mat4/mat4 a b) (with-destination (make-mat4 #f) */mat4/mat4! a b))
-(define (+/mat4/mat4 a b) (with-destination (make-mat4 #f) +/mat4/mat4! a b))
+(template
+ `((T mat3 mat4))
+ (template `((OP + - * /) )         
+           (define OP/T/T! (make-glm-operation void T "=" T "OP" T))
+           (define (OP/T/T mat1 mat2) (with-destination (make-T #f) OP/T/T! mat1 mat2))))
 
 (define abs/vec3 (make-glm-operation void vec3 "=" "glm::abs(" vec3 ")"))
 
+(define abs/vec2! (make-glm-operation void vec2 "=" "glm::abs(" vec2 ")"))
+(define abs/ivec2! (make-glm-operation void ivec2 "=" "glm::abs(" ivec2 ")"))
 
+(define (abs/vec2 vec)
+  (with-destination (make-vec2)))
 
-(let ((dest (make-mat4 8))
-      (dest2 (make-mat3 6))
-      (abs-mat (make-mat4 -1))
-      (a (make-mat4 0))
-      (b (make-mat4 0)))
+;; (define/all-types define-unary
+;;    abs      ceil   ;;  floor       fract round roundEven  sign
+;; ;;   degrees  radians
   
-  (f32vector-set! a 0 2) (f32vector-set! a 1 -3)
-  (f32vector-set! b 0 6) (f32vector-set! b 1 3)
-
-  (print "*/mat4/mat4 " (*/mat4/mat4 a b))
-  (abs/vec3 abs-mat a)
+;;    sin ;;  cos  tan  sinh  cosh  tanh
+;; ;;   asin acos atan asinh acosh atanh
   
-  (print dest)
-  (print dest2)
-  (print "abs: " abs-mat)
-  (print "length: " (length/vec3 (vec3 10 10 -10))))
+;; ;;   exp      exp2     inversesqrt log   log2  sqrt
 
-(define-syntax define-unary
-  (er-macro-transformer
-   (lambda (x r t)
-     (let ((operator (cadr x))
-           (type (caddr x)))
-       `(define ,(string->symbol (conc operator "/" type))
-          (,(r 'foreign-safe-lambda*) scheme-object ((,(glmtype->schemetype type) vin))
-           ,(conc "glm::" type " res = glm::" operator "(*(glm::" type " *)vin);"
-                  "return(" type "(res.x, res.y));")))))))
-
-
-(define-syntax define/all-types
-  (lambda (x r t)
-    (let ((operation (cadr x))
-          (operators (cddr x)))
-      `(begin
-         ,@(map (lambda (type)
-                  `(begin
-                     ,@(map (lambda (op)
-                             (list operation op type))
-                           operators)))
-                '(vec2 ivec2))))))
-
-;; (pp (expand '(define/all-types define-unary abs ceil inversesqrt)))
-
-(define/all-types define-unary
-   abs      ceil   ;;  floor       fract round roundEven  sign
-;;   degrees  radians
-  
-   sin ;;  cos  tan  sinh  cosh  tanh
-;;   asin acos atan asinh acosh atanh
-  
-;;   exp      exp2     inversesqrt log   log2  sqrt
-
-;;   normalize
-   )
+;; ;;   normalize
+;;    )
 
 (define-syntax define-binary/infix
   (er-macro-transformer

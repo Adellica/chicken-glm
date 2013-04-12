@@ -147,22 +147,24 @@
 ;; *** vector constructors
 ;; TODO: add vec4
 
-(define-external (vec2 (float x) (float y))           scheme-object  (f32vector x y))
-(define-external (vec3 (float x) (float y) (float z)) scheme-object  (f32vector x y z))
+(define-external (vec2 (float x) (float y))                      scheme-object  (f32vector x y))
+(define-external (vec3 (float x) (float y) (float z))            scheme-object  (f32vector x y z))
+(define-external (vec4 (float x) (float y) (float z) (float w))  scheme-object  (f32vector x y z w))
 
-(define-external (ivec2 (int x) (int y))              scheme-object  (s32vector x y))
-(define-external (ivec3 (int x) (int y) (int z))      scheme-object  (s32vector x y z))
+(define-external (ivec2 (int x) (int y))                         scheme-object  (s32vector x y))
+(define-external (ivec3 (int x) (int y) (int z))                 scheme-object  (s32vector x y z))
+(define-external (ivec4 (float x) (float y) (float z) (float w)) scheme-object  (s32vector x y z w))
 
-(define-external (uvec2 (int x) (int y))              scheme-object  (u32vector x y))
-(define-external (uvec3 (int x) (int y) (int z))      scheme-object  (u32vector x y z))
+(define-external (uvec2 (int x) (int y))                         scheme-object  (u32vector x y))
+(define-external (uvec3 (int x) (int y) (int z))                 scheme-object  (u32vector x y z))
+(define-external (uvec4 (float x) (float y) (float z) (float w)) scheme-object  (u32vector x y z w))
 
-(pp (expand '(template
-              `((D 2 3 4))
-              (define (make-vecD  fill) (make-f32vector D fill))
-              (define (make-ivecD fill) (make-s32vector D fill))
-              (define (make-uvecD fill) (make-u32vector D fill)))))
+(template
+ `((D 2 3 4))
+ (define (make-vecD  fill) (make-f32vector D fill))
+ (define (make-ivecD fill) (make-s32vector D fill))
+ (define (make-uvecD fill) (make-u32vector D fill)))
 
-(define (make-vec3 fill) (make-f32vector 3 fill))
 
 ;; TODO: add mat3x4, mat4x3 etc
 (define (make-mat3 fill)  (make-f32vector  9 fill))
@@ -199,52 +201,29 @@
  (template `((OP "dot" "distance"))
            (define OP/T (make-glm-operation R "return(" "glm::" "OP" "(" T "," T "));"))))
 
+;; infix operators
 (template
- `((T mat3 mat4))
+ `((T mat3 mat4 vec2 vec3 vec4))
  (template `((OP + - * /) )         
            (define OP/T/T! (make-glm-operation void T "=" T "OP" T))
            (define (OP/T/T mat1 mat2) (with-destination (make-T #f) OP/T/T! mat1 mat2))))
 
-(define abs/vec3 (make-glm-operation void vec3 "=" "glm::abs(" vec3 ")"))
+ ;; vector unary-operators
+(template
+ `((T vec2  vec3  vec4
+      ivec2 ivec3 ivec4
+      uvec2 uvec3 uvec4))
 
-(define abs/vec2! (make-glm-operation void vec2 "=" "glm::abs(" vec2 ")"))
-(define abs/ivec2! (make-glm-operation void ivec2 "=" "glm::abs(" ivec2 ")"))
-
-(define (abs/vec2 vec)
-  (with-destination (make-vec2)))
-
-;; (define/all-types define-unary
-;;    abs      ceil   ;;  floor       fract round roundEven  sign
-;; ;;   degrees  radians
-  
-;;    sin ;;  cos  tan  sinh  cosh  tanh
-;; ;;   asin acos atan asinh acosh atanh
-  
-;; ;;   exp      exp2     inversesqrt log   log2  sqrt
-
-;; ;;   normalize
-;;    )
-
-(define-syntax define-binary/infix
-  (er-macro-transformer
-   (lambda (x r t)
-     (let ((operator (cadr x))
-           (type1 (caddr x))
-           (type2 (cadddr x)))
-       `(define ,(string->symbol (conc operator "/" type1 "/" type2))
-          (,(r 'foreign-safe-lambda*) scheme-object ((,(glmtype->schemetype type1) a)
-                                                (,(glmtype->schemetype type2) b))
-           ,(conc "glm::" type1 " r = "
-                  "(*(glm::" type1 "*)a)"
-                  " " operator " "
-                  "(*(glm::" type2 "*)b)"
-                  ";\n"
-                  "return(" type1 "(r.x, r.y));")))))))
-
-(define-binary/infix + vec2 vec2)
-(define-binary/infix - vec2 vec2)
-(define-binary/infix * vec2 vec2)
-(define-binary/infix / vec2 vec2)
+ (template `((OP
+              abs      ceil ;;  floor       fract round roundEven  sign
+              sin           ;;  cos  tan  sinh  cosh  tanh
+              ;;   asin acos atan asinh acosh atanh
+              ;;   degrees  radians
+              ;;   exp      exp2     inversesqrt log   log2  sqrt
+              ;;   normalize
+              ))
+           (define OP/T! (make-glm-operation void T "=" "glm::OP(" T ")"))
+           (define (OP/T vec) (with-destination (make-T #f) OP/T! vec))))
 
 
 ;; lookat cross translate rotate degrees radians

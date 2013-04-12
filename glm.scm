@@ -178,14 +178,6 @@
  (define T! (make-glm-operation void T "=" "glm::T(" float ")"))
  (define (T diagonal) (with-destination (make-T #f) T! diagonal)))
 
-;; TODO: use templates
-(define length/ivec2 (make-glm-operation int "return(" "glm::length(" ivec2 "));"))
-(define length/ivec3 (make-glm-operation int "return(" "glm::length(" ivec3 "));"))
-(define length/ivec4 (make-glm-operation int "return(" "glm::length(" ivec4 "));"))
-
-(define length/vec2 (make-glm-operation float "return(" "glm::length(" vec2 "));"))
-(define length/vec3 (make-glm-operation float "return(" "glm::length(" vec3 "));"))
-(define length/vec4 (make-glm-operation float "return(" "glm::length(" vec4 "));"))
 
 ;;(pp (expand '(template `((T mat6) (R ,(lambda (t) (print "from R: " t) "foodidoo"))) one two T R "partial R")))
 ;; (pp (expand '(template `((T vec2 vec3) (R ,(lambda (t) (conc t "++" (value-type t) "++"))))
@@ -197,7 +189,10 @@
        uvec2 uvec3 uvec4
        ivec2 ivec3 ivec4)
    (R ,value-type))
-          
+
+ ;; unary operators
+ (define length/T (make-glm-operation R "return(" "glm::length(" T "));"))
+ 
  (template `((OP "dot" "distance"))
            (define OP/T (make-glm-operation R "return(" "glm::" "OP" "(" T "," T "));"))))
 

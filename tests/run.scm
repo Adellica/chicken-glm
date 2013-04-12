@@ -60,5 +60,10 @@
                             (vec2 10 -10)))
 
 
+(test-group
+ "vector length"
+ (test (sqrt 2) (length/vec2 (vec2 1 1)))
+ (test 141      (length/ivec2 (ivec2 -100 100)))
+ (test 141      (length/uvec2 (uvec2 100 100))))
 
 (print (sin/vec2 (vec2 3.14 (/ 3.14 2))))

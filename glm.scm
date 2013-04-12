@@ -223,6 +223,11 @@
            (define OP/T! (make-glm-operation void T "=" "glm::OP(" T ")"))
            (define (OP/T vec) (with-destination (make-T #f) OP/T! vec))))
 
+(template
+ `((T mat3 mat4))
+ (define transpose/T! (make-glm-operation void T "=" "glm::transpose(" T ")"))
+ (define (transpose/T mat)  (with-destination (make-T #f) transpose/T! mat)))
+
 
 ;; lookat cross translate rotate degrees radians
 ;; vec * scalar

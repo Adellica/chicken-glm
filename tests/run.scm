@@ -80,7 +80,12 @@
  (test 141      (length/ivec2 (ivec2 -100 100)))
  (test 141      (length/uvec2 (uvec2 100 100))))
 
-(test
+
+
+(test-group
+ "transpose"
+
+ (test
  (f32vector 0 1 5 8
             0 2 6 9
             0 3 7 9
@@ -89,5 +94,8 @@
                             1 2 3 4
                             5 6 7 7
                             8 9 9 10)))
+ 
+ (test transpose/mat4 (transpose/delegate (make-mat4 #f)))
+ (test transpose/mat3 (transpose/delegate (make-mat3 #f))))
 
 (print (sin/vec2 (vec2 3.14 (/ 3.14 2))))

@@ -228,6 +228,13 @@
  (define transpose/T! (make-glm-operation void T "=" "glm::transpose(" T ")"))
  (define (transpose/T mat)  (with-destination (make-T #f) transpose/T! mat)))
 
+(define (transpose/delegate mat)
+  (cond ((mat4? mat) transpose/mat4)
+        ((mat3? mat) transpose/mat3)))
+
+(define (transpose mat)
+  ((transpose/delegate mat) mat))
+
 
 (define (print-mat4 mat #!optional
                     (preline (lambda () (void)))

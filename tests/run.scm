@@ -1,6 +1,19 @@
-(print "\n\n\nrunning run.scm")
+(print "\n\n\n")
 (use glm test)
 
+
+;(exit)
+
+(test '#f32(
+            1.0 0.0 0.0 0.0
+            0.0 1.0 0.0 0.0
+            0.0 0.0 1.0 0.0
+            0.0 0.0 0.0 1.0) (mat4 1))
+
+(test '#f32(
+            1.0 0.0 0.0
+            0.0 1.0 0.0
+            0.0 0.0 1.0) (mat3 1))
 
 
 (test (ivec2 64 123) (abs/ivec2 (ivec2 -64 -123)))

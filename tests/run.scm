@@ -106,8 +106,8 @@
 
 (test-group
  "determinant"
- (test -13.0 (determinant/mat3(f32vector 1 3 4
-                                         4 5 6
-                                         4 3 5))))
+ (test -13.0 (determinant/mat3 (f32vector 1 3 4
+                                          4 5 6
+                                          4 3 5))))
 
 (print (sin/vec2 (vec2 3.14 (/ 3.14 2))))

@@ -1,15 +1,6 @@
 
-(define-record mat cols data)
+(include "glm-matrix-record.scm")
 
-(define (mat-rows x) (/ (f32vector-length (mat-data x)) (mat-cols x)))
-
-
-(define-record-printer (mat x port)
-  (fprintf port "#<mat ~Ax~A:\n" (mat-cols x) (mat-rows x))
-  (print-mat x port (lambda _ (void)) (lambda (n) (if (< n (sub1 (mat-rows x))) (fprintf port "\n"))))
-  (fprintf port ">\n"))
-
-(define-foreign-type mat f32vector mat-data)
 
 ;; matrix constructors
 

@@ -1,5 +1,6 @@
 
 
+
 (define (print-mat mat #!optional
                    (port (current-output-port))
                    (preline (lambda _ (void)))
@@ -15,5 +16,20 @@
       (display (f32vector-ref (mat-data mat) (+ (* j (mat-cols mat)) i)) port) ;; column-major
       (postcell i j))
     (postline i)))
+
+
+(define-record mat cols data)
+
+(define (mat-rows x) (/ (f32vector-length (mat-data x)) (mat-cols x)))
+
+
+(define-record-printer (mat x port)
+  (fprintf port "#<mat ~Ax~A:\n" (mat-cols x) (mat-rows x))
+  (print-mat x port (lambda _ (void)) (lambda (n) (if (< n (sub1 (mat-rows x))) (fprintf port "\n"))))
+  (fprintf port ">\n"))
+
+(define-foreign-type mat f32vector mat-data)
+
+
 
 

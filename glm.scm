@@ -282,8 +282,7 @@
 
 
 
-(include "glm-util.scm")
-(include "glm-matrices.scm")
+(include "glm-matrix.scm")
 (include "gtc-matrix-transform.scm")
 ;; lookat 
 ;; degrees radians

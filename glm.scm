@@ -253,9 +253,9 @@
  (define length/T (glm R "return(" "glm::length(" T "));"))
  
 
- ;; prefix binary operators, primitive return type
- (template `((OP "dot" "distance"))
-           (define OP/T (glm R "return(" "glm::" "OP" "(" T "," T "));"))))
+;; prefix binary operators, primitive return type
+(template `((OP "dot" "distance"))
+          (define OP/T (glm R "return(" "glm::" "OP" "(" T "," T "));"))))
 
 ;; cross is only defined for vec3
 (template

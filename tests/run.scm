@@ -253,33 +253,32 @@
  "gtc marix-transform"
 
  (test "translate"
-       ;; column-major
-       (f32vector 1 0 0 0
-                  0 1 0 0
-                  0 0 1 0
-                  4 5 6 1)
+       (make-mat 4 (f32vector 1 0 0 0
+                              0 1 0 0
+                              0 0 1 0
+                              4 5 6 1))
        (translate (mat4 1) (vec3 4 5 6)))
 
  (test "scale"
-       (f32vector 4 0 0 0
-                  0 5 0 0
-                  0 0 6 0
-                  0 0 0 1)
+       (make-mat 4 (f32vector 4 0 0 0
+                              0 5 0 0
+                              0 0 6 0
+                              0 0 0 1))
        (scale (mat4 1) (vec3 4 5 6)))
 
  (test
-  (f32vector 1 0 0 0
-             0 1 0 0
-             0 0 1 0
-             0 0 0 1)
+  (make-mat 4 (f32vector 1 0 0 0
+                         0 1 0 0
+                         0 0 1 0
+                         0 0 0 1))
   (rotate (mat4 1) 0 (vec3 1 0 0)))
 
  (test
   ;; TODO: allow some uncertainty here so we can round to 1 for convenience
-  (f32vector -4.37113882867379e-08 0.0 -1.0 0.0
-             0.0 0.999999940395355 0.0 0.0
-             1.0 0.0 -4.37113882867379e-08 0.0
-             0.0 0.0 0.0 1.0)
+  (make-mat 4 (f32vector -4.37113882867379e-08 0.0 -1.0 0.0
+                         0.0 0.999999940395355 0.0 0.0
+                         1.0 0.0 -4.37113882867379e-08 0.0
+                         0.0 0.0 0.0 1.0))
   (rotate (mat4 1) 90 (vec3 0 1 0))))
 
 (test

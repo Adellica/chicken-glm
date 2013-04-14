@@ -251,10 +251,15 @@
              0.0 0.0 0.0 1.0)
   (rotate (mat4 1) 90 (vec3 0 1 0))))
 
-(print-mat4 (look-at (vec3 0 0 0) ;; eye: position of camera
-                     (vec3 0 0 1) ;; center: lookint at point
-                     (vec3 0 1 0) ;; camera orientation
-                     ))
+(test
+ (make-mat 4 (f32vector -1 0 -.0 0
+                         0 1 -.0 0
+                         0 -.0 -1 0
+                         -.0 -.0 0 1))
+ (look-at (vec3 0 0 0) ;; eye: position of camera
+          (vec3 0 0 1) ;; center: lookint at point
+          (vec3 0 1 0) ;; camera orientation
+          ))
 
 (test-group
  "mat* delegate"

@@ -51,6 +51,16 @@
    (define (*/matIxJ/matKxI mat1 mat2)
      (with-destination (make-matKxJ #f) */matIxJ/matKxI! mat1 mat2)))))
 
+;; element-wise matrix operators
+(template
+ `((I 2 3 4))
+ (template
+  `((J 2 3 4))
+  (template
+   `((<OP> + -))
+   (define <OP>/matIxJ! (glm void matIxJ "=" matIxJ "<OP>" matIxJ))
+   (define (<OP>/matIxJ mat1 mat2)
+     (with-destination (make-matIxJ #f) <OP>/matIxJ! mat1 mat2)))))
 
 (template
  `((T mat3 mat4))
@@ -110,6 +120,25 @@
 
 (define (mat* mat1 mat2)
   ((mat*/delegate mat1 mat2) mat1 mat2))
+
+(template
+ `((<OP> + -))
+ (define (m<OP>/delegate mat1 mat2)
+   (if (and (= (mat-cols mat1) (mat-cols mat2))
+            (= (mat-rows mat1) (mat-rows mat2)))
+       (case (mat-cols mat1)
+         ((2) (case (mat-rows mat1)
+                ((2) <OP>/mat2x2) ((3) <OP>/mat2x3) ((4) <OP>/mat2x4)))
+         ((3) (case (mat-rows mat1)
+                ((2) <OP>/mat3x2) ((3) <OP>/mat3x3) ((4) <OP>/mat3x4)))
+         ((4) (case (mat-rows mat1)
+                ((2) <OP>/mat4x2) ((3) <OP>/mat4x3) ((4) <OP>/mat4x4))))      
+       (error "matrix size must be equal" mat1 mat2)))
+ 
+ (define (m<OP> mat1 mat2)
+   ((m<OP>/delegate mat1 mat2) mat1 mat2)))
+
+
 
 (template
  `((T mat3 mat4))

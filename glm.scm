@@ -264,6 +264,25 @@
  (define (cross/T veca vecb) (with-destination (make-T #f) cross/T! veca vecb)))
 
 
+
+;; matrix by matrix multiplication
+;; matrix-sizes can be IxJ * JxK
+(template
+ `((I 2 3 4))
+
+ ;; our I give us all possible types
+ (template
+  `((J 2 3 4))
+
+  ;; JxK give the three legal multiplication sizes
+  (template
+   `((K 2 3 4))
+  
+   (define */matIxJ/matKxI! (glm void matKxJ "=" matIxJ "*" matKxI))
+   (define (*/matIxJ/matKxI mat1 mat2)
+     (with-destination (make-matIxK #f) */matIxJ/matKxI! mat1 mat2)))))
+
+
 ;; infix operators
 (template
  `((T mat3 mat4 vec2 vec3 vec4))

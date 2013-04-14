@@ -92,6 +92,7 @@
  (test (u32vector 1 2 3 4) (uvec4 1 2 3 4))
  (test (u8vector  1 2 3 4) (bvec4 1 2 3 4)))
 
+;; note: matrix data (f32vector) is stored column-major
 (test-group
  "matrix constructors"
 

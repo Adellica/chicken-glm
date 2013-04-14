@@ -45,14 +45,19 @@
 (begin-for-syntax
  (define (glmtype->schemetype type)
    (case type
-     ((vec vec2  vec3  vec4            
-           mat2 mat2x2 mat2x3 mat2x4
-           mat3 mat3x2 mat3x3 mat3x4
-           mat4 mat4x2 mat4x3 mat4x4) 'f32vector)
-     ((dvec dvec2 dvec3 dvec4           
-            dmat2 dmat2x2 dmat2x3 dmat2x4
-            dmat3 dmat3x2 dmat3x3 dmat3x4
-            dmat4 dmat4x2 dmat4x3 dmat4x4) 'f64vector)
+     ((vec vec2  vec3  vec4) 'f32vector)
+     ((dvec dvec2 dvec3 dvec4) 'f64vector)
+
+     ((
+       mat2 mat2x2 mat2x3 mat2x4
+       mat3 mat3x2 mat3x3 mat3x4
+       mat4 mat4x2 mat4x3 mat4x4) 'mat)
+
+     ((
+       dmat2 dmat2x2 dmat2x3 dmat2x4
+       dmat3 dmat3x2 dmat3x3 dmat3x4
+       dmat4 dmat4x2 dmat4x3 dmat4x4) 'dmat)
+     
      ((ivec ivec2 ivec3 ivec4) 's32vector)
      ((uvec uvec2 uvec3 uvec4) 'u32vector)
      ((bvec bvec2 bvec3 bvec4) 'u8vector)
@@ -207,17 +212,7 @@
  (define (make-bvecD fill) (make-u8vector D fill)))
 
 
-(template
- `((ROW 2 3 4))
- 
- (template
-  `((COL 2 3 4))
-  
-  (define (make-matROWxCOL fill)  (make-f32vector (* ROW COL) fill))))
 
-(define make-mat2 make-mat2x2)
-(define make-mat3 make-mat3x3)
-(define make-mat4 make-mat4x4)
 
 ;; OBS: we won't be able to distinguish between vec4 and mat2 for example
 (template
@@ -231,16 +226,6 @@
 
  (define (bvecD? vec) (and (u8vector? vec) (= (u8vector-length vec) D))))
 
-(define (mat3? mat) (and (f32vector? mat) (= (f32vector-length mat)  9)))
-(define (mat4? mat) (and (f32vector? mat) (= (f32vector-length mat) 16)))
-
-;;; matrix constructors
-(template
- `((T mat2 mat2x2 mat2x3 mat2x4
-      mat3 mat3x2 mat3x3 mat3x4
-      mat4 mat4x2 mat4x3 mat4x4))
- (define T! (glm void T "=" "glm::T(" float ")"))
- (define (T diagonal) (with-destination (make-T #f) T! diagonal)))
 
 ;;; vector operations
 (template
@@ -265,32 +250,20 @@
 
 
 
-;; matrix by matrix multiplication
-;; matrix-sizes can be IxJ * JxK
-(template
- `((I 2 3 4))
-
- ;; our I give us all possible types
- (template
-  `((J 2 3 4))
-
-  ;; JxK give the three legal multiplication sizes
-  (template
-   `((K 2 3 4))
-  
-   (define */matIxJ/matKxI! (glm void matKxJ "=" matIxJ "*" matKxI))
-   (define (*/matIxJ/matKxI mat1 mat2)
-     (with-destination (make-matIxK #f) */matIxJ/matKxI! mat1 mat2)))))
-
-
 ;; infix operators
 (template
- `((T mat3 mat4 vec2 vec3 vec4))
- (template `((OP + - * /) )         
+ `((T vec2  vec3  vec4
+      uvec2 uvec3 uvec4
+      ivec2 ivec3 ivec4)) 
+ 
+ (template `((OP + - * /) )
+           
            (define OP/T/T! (glm void T "=" T "OP" T))
-           (define (OP/T/T mat1 mat2) (with-destination (make-T #f) OP/T/T! mat1 mat2))))
+           (define (OP/T/T operand1 operand2)
+             (with-destination (make-T #f) OP/T/T! operand1 operand2))))
 
- ;; vector unary-operators
+
+;; vector unary-operators
 (template
  `((T vec2  vec3  vec4
       ivec2 ivec3 ivec4
@@ -307,26 +280,10 @@
            (define OP/T! (glm void T "=" "glm::OP(" T ")"))
            (define (OP/T vec) (with-destination (make-T #f) OP/T! vec))))
 
-(template
- `((T mat3 mat4))
- (define transpose/T! (glm void T "=" "glm::transpose(" T ")"))
- (define (transpose/T mat)  (with-destination (make-T #f) transpose/T! mat)))
-
-(define (transpose/delegate mat)
-  (cond ((mat4? mat) transpose/mat4)
-        ((mat3? mat) transpose/mat3)))
-
-(define (transpose mat)
-  ((transpose/delegate mat) mat))
-
-
-
-(template
- `((T mat3 mat4))
- (define determinant/T (glm float "return(" "glm::determinant(" T ")" ")")))
 
 
 (include "glm-util.scm")
+(include "glm-matrices.scm")
 (include "gtc-matrix-transform.scm")
 ;; lookat 
 ;; degrees radians

@@ -152,6 +152,37 @@
                             0 0 0 1))
        (mat4x4 1)))
 
+(test-group
+ "matrix multiplication"
+
+ (test "* mat4/mat4"
+       (make-mat 4 (f32vector 900   1000   1100   1200
+                              2020   2280   2540   2800
+                              3140   3560   3980   4400
+                              4260   4840   5420   6000))
+       (*/mat4x4/mat4x4 (make-mat 4 (f32vector 1 2 3 4
+                                               5 6 7 8
+                                               9 10 11 12
+                                               13 14 15 16)) 
+                        (make-mat 4 (f32vector 10 20 30 40
+                                               50 60 70 80
+                                               90 100 110 120
+                                               130 140 150 160 ))))
+
+ (test "* mat"
+       (make-mat 4 (f32vector 22 28
+                              49 64
+                              76 100
+                              103
+                              136))
+       (*/mat3x2/mat4x3 (make-mat 3 (f32vector 1 2
+                                               3 4
+                                               5 6))
+                        (make-mat 4 (f32vector 1 2 3
+                                               4 5 6
+                                               7 8 9
+                                               10 11 12))))
+ )
 
 
 (test-group

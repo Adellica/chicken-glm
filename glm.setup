@@ -5,4 +5,5 @@
 
 (system "csi -s tests/run.scm")
 
-;;(install-extension)
+(install-extension 'glm
+                   '("glm.so" "glm.import.so"))

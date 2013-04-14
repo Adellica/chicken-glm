@@ -94,33 +94,63 @@
 
 (test-group
  "matrix constructors"
- (test '#f32(
-             1.0 0.0 0.0 0.0
-             0.0 1.0 0.0 0.0
-             0.0 0.0 1.0 0.0
-             0.0 0.0 0.0 1.0) (mat4 1))
 
- (test '#f32(
-             1.0 0.0 0.0
-                 0.0 1.0 0.0
-                 0.0 0.0 1.0) (mat3 1)))
+ (test (make-mat 2
+                 (f32vector 1 0
+                            0 1))
+       (mat2x2 1))
 
-(test "* mat4/mat4"
-      '#f32(
-            900   1000   1100   1200
-            2020   2280   2540   2800
-            3140   3560   3980   4400
-            4260   4840   5420   6000)
-      (*/mat4/mat4 '#f32(
-                         1 2 3 4
-                         5 6 7 8
-                         9 10 11 12
-                         13 14 15 16) 
-                   '#f32(
-                         10 20 30 40
-                         50 60 70 80
-                         90 100 110 120
-                         130 140 150 160 )))
+ (test (make-mat 2
+                 (f32vector 1 0 0
+                            0 1 0))
+       (mat2x3 1))
+
+ ;; OBS: this fails on glm 0.9.4 (I have submitted a patch which might
+ ;; fix it)
+ (test (make-mat 2
+                 (f32vector 1 0 0 0
+                            0 1 0 0))
+       (mat2x4 1))
+
+
+
+ (test (make-mat 3
+                 (f32vector 1 0 
+                            0 1
+                            0 0))
+       (mat3x2 1))
+ (test (make-mat 3
+                 (f32vector 1 0 0
+                            0 1 0
+                            0 0 1))
+       (mat3x3 1))
+ (test (make-mat 3
+                 (f32vector 1 0 0 0
+                            0 1 0 0
+                            0 0 1 0))
+       (mat3x4 1))
+
+
+ 
+ (test (make-mat 4
+                 (f32vector 1 0 
+                            0 1
+                            0 0
+                            0 0))
+       (mat4x2 1))
+ (test (make-mat 4
+                 (f32vector 1 0 0
+                            0 1 0
+                            0 0 1
+                            0 0 0))
+       (mat4x3 1))
+ (test (make-mat 4
+                 (f32vector 1 0 0 0
+                            0 1 0 0
+                            0 0 1 0
+                            0 0 0 1))
+       (mat4x4 1)))
+
 
 
 (test-group

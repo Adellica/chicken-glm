@@ -43,5 +43,5 @@
 
 (define project! (glm void vec3 "=" "glm::project(" vec3 "," mat4 "," mat4 "," vec4 ")"))
 (define (project obj model proj veiwport)
-  (with-destination (make-mat4 #f) project! obj model proj veiwport))
+  (with-destination (vec3 0 0 0) project! obj model proj veiwport))
 

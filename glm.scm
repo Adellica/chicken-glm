@@ -267,7 +267,9 @@
 
 
 (include "glm-util.scm")
-;; lookat cross translate rotate degrees radians
+(include "gtc-matrix-transform.scm")
+;; lookat 
+;; degrees radians
 ;; vec * scalar
 ;; vec * vec
 ;; mat * vec 

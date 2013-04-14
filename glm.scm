@@ -188,7 +188,6 @@
                          lst)))))))
 
 ;; *** vector constructors
-;; TODO: add vec4
 
 (template
  `((P vec dvec   ivec uvec   bvec)
@@ -208,9 +207,17 @@
  (define (make-bvecD fill) (make-u8vector D fill)))
 
 
-;; TODO: add mat3x4, mat4x3 etc
-(define (make-mat3 fill)  (make-f32vector  9 fill))
-(define (make-mat4 fill)  (make-f32vector 16 fill))
+(template
+ `((ROW 2 3 4))
+ 
+ (template
+  `((COL 2 3 4))
+  
+  (define (make-matROWxCOL fill)  (make-f32vector (* ROW COL) fill))))
+
+(define make-mat2 make-mat2x2)
+(define make-mat3 make-mat3x3)
+(define make-mat4 make-mat4x4)
 
 ;; OBS: we won't be able to distinguish between vec4 and mat2 for example
 (template
@@ -229,7 +236,9 @@
 
 ;;; matrix constructors
 (template
- `((T mat3 mat4))
+ `((T mat2 mat2x2 mat2x3 mat2x4
+      mat3 mat3x2 mat3x3 mat3x4
+      mat4 mat4x2 mat4x3 mat4x4))
  (define T! (glm void T "=" "glm::T(" float ")"))
  (define (T diagonal) (with-destination (make-T #f) T! diagonal)))
 

@@ -3,6 +3,8 @@
 
 (test-group
  "vec?"
+
+ ;; float
  (test #t (vec2? (make-vec2 0)))
  (test #f (vec2? (make-vec3 0)))
  (test #f (vec2? (make-vec4 0)))
@@ -13,7 +15,62 @@
 
  (test #f (vec4? (make-vec2 0)))
  (test #f (vec4? (make-vec3 0)))
- (test #t (vec4? (make-vec4 0))))
+ (test #t (vec4? (make-vec4 0)))
+
+ ;; double
+ (test #t (dvec2? (make-dvec2 0)))
+ (test #f (dvec2? (make-dvec3 0)))
+ (test #f (dvec2? (make-dvec4 0)))
+
+ (test #f (dvec3? (make-dvec2 0)))
+ (test #t (dvec3? (make-dvec3 0)))
+ (test #f (dvec3? (make-dvec4 0)))
+
+ (test #f (dvec4? (make-dvec2 0)))
+ (test #f (dvec4? (make-dvec3 0)))
+ (test #t (dvec4? (make-dvec4 0)))
+
+ ;; signed int
+ (test #t (ivec2? (make-ivec2 0)))
+ (test #f (ivec2? (make-ivec3 0)))
+ (test #f (ivec2? (make-ivec4 0)))
+
+ (test #f (ivec3? (make-ivec2 0)))
+ (test #t (ivec3? (make-ivec3 0)))
+ (test #f (ivec3? (make-ivec4 0)))
+
+ (test #f (ivec4? (make-ivec2 0)))
+ (test #f (ivec4? (make-ivec3 0)))
+ (test #t (ivec4? (make-ivec4 0)))
+
+ ;; unsigned int
+ (test #t (uvec2? (make-uvec2 0)))
+ (test #f (uvec2? (make-uvec3 0)))
+ (test #f (uvec2? (make-uvec4 0)))
+
+ (test #f (uvec3? (make-uvec2 0)))
+ (test #t (uvec3? (make-uvec3 0)))
+ (test #f (uvec3? (make-uvec4 0)))
+
+ (test #f (uvec4? (make-uvec2 0)))
+ (test #f (uvec4? (make-uvec3 0)))
+ (test #t (uvec4? (make-uvec4 0)))
+
+
+ ;; bool
+ (test #t (bvec2? (make-bvec2 0)))
+ (test #f (bvec2? (make-bvec3 0)))
+ (test #f (bvec2? (make-bvec4 0)))
+
+ (test #f (bvec3? (make-bvec2 0)))
+ (test #t (bvec3? (make-bvec3 0)))
+ (test #f (bvec3? (make-bvec4 0)))
+
+ (test #f (bvec4? (make-bvec2 0)))
+ (test #f (bvec4? (make-bvec3 0)))
+ (test #t (bvec4? (make-bvec4 0)))
+
+ )
 
 (test-group
  "vector constructors"

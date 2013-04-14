@@ -196,7 +196,14 @@
 ;; OBS: we won't be able to distinguish between vec4 and mat2 for example
 (template
  `((D 2 3 4))
- (define (vecD? vec) (and (f32vector? vec) (= (f32vector-length vec) D))))
+
+ (define ( vecD? vec) (and (f32vector? vec) (= (f32vector-length vec) D)))
+ (define (dvecD? vec) (and (f64vector? vec) (= (f64vector-length vec) D)))
+
+ (define (ivecD? vec) (and (s32vector? vec) (= (s32vector-length vec) D)))
+ (define (uvecD? vec) (and (u32vector? vec) (= (u32vector-length vec) D)))
+
+ (define (bvecD? vec) (and (u8vector? vec) (= (u8vector-length vec) D))))
 
 (define (mat3? mat) (and (f32vector? mat) (= (f32vector-length mat)  9)))
 (define (mat4? mat) (and (f32vector? mat) (= (f32vector-length mat) 16)))

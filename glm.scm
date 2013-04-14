@@ -3,6 +3,7 @@
 
 (use srfi-4)
 
+;; glm matrix layout in memory is column-major 
 #>
 #include <glm/glm.hpp>
 <#

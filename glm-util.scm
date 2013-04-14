@@ -11,7 +11,7 @@
     (do ((j 0 (add1 j)))
         ((>= j 4))
       (precell)
-      (display (f32vector-ref mat (+ (* i 4) j)))
+      (display (f32vector-ref mat (+ (* j 4) i))) ;; column-major
       (postcell))
     (postline)))
 

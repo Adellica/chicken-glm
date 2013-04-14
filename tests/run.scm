@@ -16,6 +16,26 @@
  (test #t (vec4? (make-vec4 0))))
 
 (test-group
+ "vector constructors"
+ (test (f32vector 1 2) ( vec2 1 2))
+ (test (f64vector 1 2) (dvec2 1 2))
+ (test (s32vector 1 2) (ivec2 1 2))
+ (test (u32vector 1 2) (uvec2 1 2))
+ (test (u8vector  1 2) (bvec2 1 2))
+ 
+ (test (f32vector 1 2 3) ( vec3 1 2 3))
+ (test (f64vector 1 2 3) (dvec3 1 2 3))
+ (test (s32vector 1 2 3) (ivec3 1 2 3))
+ (test (u32vector 1 2 3) (uvec3 1 2 3))
+ (test (u8vector  1 2 3) (bvec3 1 2 3))
+
+ (test (f32vector 1 2 3 4) ( vec4 1 2 3 4))
+ (test (f64vector 1 2 3 4) (dvec4 1 2 3 4))
+ (test (s32vector 1 2 3 4) (ivec4 1 2 3 4))
+ (test (u32vector 1 2 3 4) (uvec4 1 2 3 4))
+ (test (u8vector  1 2 3 4) (bvec4 1 2 3 4)))
+
+(test-group
  "matrix constructors"
  (test '#f32(
              1.0 0.0 0.0 0.0

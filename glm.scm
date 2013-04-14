@@ -171,26 +171,22 @@
 ;; *** vector constructors
 ;; TODO: add vec4
 
-(define-external (vec2 (float x) (float y))                      scheme-object  (f32vector x y))
-(define-external (vec3 (float x) (float y) (float z))            scheme-object  (f32vector x y z))
-(define-external (vec4 (float x) (float y) (float z) (float w))  scheme-object  (f32vector x y z w))
+(template
+ `((P vec dvec   ivec uvec   bvec)
+   (R ,glmtype->schemetype)) ;; f32vector s32vector etc
+ 
+ (define (P2 x y)     (R x y))
+ (define (P3 x y z)   (R x y z))
+ (define (P4 x y z w) (R x y z w)))
 
-(define-external (ivec2 (int x) (int y))                         scheme-object  (s32vector x y))
-(define-external (ivec3 (int x) (int y) (int z))                 scheme-object  (s32vector x y z))
-(define-external (ivec4 (int x) (int y) (int z) (int w)) scheme-object  (s32vector x y z w))
-
-(define-external (uvec2 (unsigned-int x) (unsigned-int y))
-  scheme-object  (u32vector x y))
-(define-external (uvec3 (unsigned-int x) (unsigned-int y) (unsigned-int z))
-  scheme-object  (u32vector x y z))
-(define-external (uvec4 (unsigned-int x) (unsigned-int y) (unsigned-int z) (unsigned-int w))
-  scheme-object  (u32vector x y z w))
 
 (template
  `((D 2 3 4))
  (define (make-vecD  fill) (make-f32vector D fill))
+ (define (make-dvecD fill) (make-f64vector D fill))
  (define (make-ivecD fill) (make-s32vector D fill))
- (define (make-uvecD fill) (make-u32vector D fill)))
+ (define (make-uvecD fill) (make-u32vector D fill))
+ (define (make-bvecD fill) (make-u8vector D fill)))
 
 
 ;; TODO: add mat3x4, mat4x3 etc

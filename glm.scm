@@ -28,8 +28,14 @@
      ((ivec ivec2 ivec3 ivec4) 'int)
      ((uvec uvec2 uvec3 uvec4) 'unsigned-int)
      ((bvec bvec2 bvec3 bvec4) 'unsigned-char)
-     ((mat3 mat4) 'float)
-     ((dmat3 dmat4) 'double)
+     ((
+       mat2 mat2x2 mat2x3 mat2x4
+       mat3 mat3x2 mat3x3 mat3x4
+       mat4 mat4x2 mat4x3 mat4x4) 'float)
+     ((
+       dmat2 dmat2x2 dmat2x3 dmat2x4
+       dmat3 dmat3x2 dmat3x3 dmat3x4
+       dmat4 dmat4x2 dmat4x3 dmat4x4) 'double)
      (else (error "no value-type for" glmtype))))
 
  ;; we apparently need this in order for value-type to be visible by
@@ -37,17 +43,23 @@
  (define glm#value-type value-type))
 
 (begin-for-syntax
-  (define (glmtype->schemetype type)
-    (case type
-      ((vec vec2  vec3  vec4 mat4 mat3) 'f32vector)
-      ((dvec dvec2 dvec3 dvec4) 'f64vector)
-      ((ivec ivec2 ivec3 ivec4) 's32vector)
-      ((uvec uvec2 uvec3 uvec4) 'u32vector)
-      ((bvec bvec2 bvec3 bvec4) 'u8vector)
-      ((float double int) type)
-      (else (error "cannot convert to scheme-type" type))))
+ (define (glmtype->schemetype type)
+   (case type
+     ((vec vec2  vec3  vec4            
+           mat2 mat2x2 mat2x3 mat2x4
+           mat3 mat3x2 mat3x3 mat3x4
+           mat4 mat4x2 mat4x3 mat4x4) 'f32vector)
+     ((dvec dvec2 dvec3 dvec4           
+            dmat2 dmat2x2 dmat2x3 dmat2x4
+            dmat3 dmat3x2 dmat3x3 dmat3x4
+            dmat4 dmat4x2 dmat4x3 dmat4x4) 'f64vector)
+     ((ivec ivec2 ivec3 ivec4) 's32vector)
+     ((uvec uvec2 uvec3 uvec4) 'u32vector)
+     ((bvec bvec2 bvec3 bvec4) 'u8vector)
+     ((float double int) type)
+     (else (error "cannot convert to scheme-type" type))))
 
-  (define glm#glmtype->schemetype glmtype->schemetype))
+ (define glm#glmtype->schemetype glmtype->schemetype))
 
 
 ;; bug!? without this, we get "warning: reference to unbound variable
@@ -63,7 +75,14 @@
       vec2 vec3 vec4
       ivec2 ivec3 ivec4 
       uvec2 uvec3 uvec4 
-      mat3 mat4)
+      
+      mat2 mat2x2 mat2x3 mat2x4
+      mat3 mat3x2 mat3x3 mat3x4
+      mat4 mat4x2 mat4x3 mat4x4
+      
+      dmat2 dmat2x2 dmat2x3 dmat2x4
+      dmat3 dmat3x2 dmat3x3 dmat3x4
+      dmat4 dmat4x2 dmat4x3 dmat4x4 )
      (conc "(" "*(glm::" glmtype "*)" var ")"))
     ((float int double) var) ;; primitives don't need cast
     (else (error "cannot cast type" glmtype))))

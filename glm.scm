@@ -23,9 +23,11 @@
 (begin-for-syntax
  (define (value-type glmtype)
    (case glmtype
-     ((vec2 vec3 vec4) 'float)
-     ((ivec2 ivec3 ivec4) 'int)
-     ((uvec2 uvec3 uvec4) 'unsigned-int)
+     ((vec vec2 vec3 vec4) 'float)
+     ((dvec dvec2 dvec3 dvec4) 'float)
+     ((ivec ivec2 ivec3 ivec4) 'int)
+     ((uvec uvec2 uvec3 uvec4) 'unsigned-int)
+     ((bvec bvec2 bvec3 bvec4) 'unsigned-char)
      ((mat3 mat4) 'float)
      ((dmat3 dmat4) 'double)
      (else (error "no value-type for" glmtype))))
@@ -34,17 +36,25 @@
  ;; compile-time 'eval'
  (define glm#value-type value-type))
 
+(begin-for-syntax
+  (define (glmtype->schemetype type)
+    (case type
+      ((vec vec2  vec3  vec4 mat4 mat3) 'f32vector)
+      ((dvec dvec2 dvec3 dvec4) 'f64vector)
+      ((ivec ivec2 ivec3 ivec4) 's32vector)
+      ((uvec uvec2 uvec3 uvec4) 'u32vector)
+      ((bvec bvec2 bvec3 bvec4) 'u8vector)
+      ((float double int) type)
+      (else (error "cannot convert to scheme-type" type))))
+
+  (define glm#glmtype->schemetype glmtype->schemetype))
+
+
 ;; bug!? without this, we get "warning: reference to unbound variable
 ;; value-type" event though it's just used in 'eval' in one of the macros.
 (define value-type #f)
+(define glmtype->schemetype #f)
 
-(define-for-syntax (glmtype->schemetype type)
-  (case type
-    ((vec vec2  vec3  vec4 mat4 mat3) 'f32vector)
-    ((ivec ivec2 ivec3 ivec4) 's32vector)
-    ((uvec uvec2 uvec3 uvec4) 'u32vector)
-    ((float double int) type)
-    (else (error "cannot convert to scheme-type" type))))
 
 (define-for-syntax (cast glmtype var)
   (case glmtype

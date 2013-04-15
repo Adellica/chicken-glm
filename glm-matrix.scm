@@ -193,4 +193,4 @@
          ((4) <OP>/mat4x4))))
 
  (define (<OP> sqmat)
-   ((determinant/delegate sqmat) sqmat)))
+   ((<OP>/delegate sqmat) sqmat)))

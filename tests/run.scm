@@ -357,4 +357,5 @@
                                  3 4))
           (make-mat 2 (f32vector 4 3
                                  2 1))))
-(print (sin/vec2 (vec2 3.14 (/ 3.14 2))))
+
+

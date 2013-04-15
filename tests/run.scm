@@ -244,12 +244,6 @@
  )
 
 (test-group
- "determinant"
- (test -13.0 (determinant/mat3 (f32vector 1 3 4
-                                          4 5 6
-                                          4 3 5))))
-
-(test-group
  "gtc marix-transform"
 
  (test "translate"
@@ -354,7 +348,7 @@
  (test +/mat4x4 (m+/delegate (mat4x4 1) (mat4x4 1))))
 
 (test-group
- "inverse"
+ "determinant"
  (test 4.0 (determinant (mat2 2)))
  (test 8.0 (determinant (mat3 2)))
  (test 16.0 (determinant (mat4 2))))

@@ -150,12 +150,10 @@
                  ((4) (case (mat-rows mat1)
                         ((2) <OP>/mat4x2) ((3) <OP>/mat4x3) ((4) <OP>/mat4x4))))
                (error "matrix size must be equal" mat1 mat2))
-           ;; mat-vector addition
+           (error "mat-vector addition not yet implemented" mat1 mat2)
            )
-       ;; vector maybe-vector addition
-       (if (f32vector? mat1) v+)
-       ;;
-       ))
+       ;; vector vector addition maybe?
+       v+))
  
  (define (m<OP> mat1 mat2)
    ((m<OP>/delegate mat1 mat2) mat1 mat2)))

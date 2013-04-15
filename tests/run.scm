@@ -294,42 +294,42 @@
 (test-group
  "mat* delegate"
  
- (test */mat2x2/mat2x2 (mat*/delegate (make-mat2x2 #f) (make-mat2x2 #f)))
- (test */mat2x3/mat2x2 (mat*/delegate (make-mat2x3 #f) (make-mat2x2 #f)))
- (test */mat2x4/mat2x2 (mat*/delegate (make-mat2x4 #f) (make-mat2x2 #f)))
+ (test */mat2x2/mat2x2 (m*/delegate (make-mat2x2 #f) (make-mat2x2 #f)))
+ (test */mat2x3/mat2x2 (m*/delegate (make-mat2x3 #f) (make-mat2x2 #f)))
+ (test */mat2x4/mat2x2 (m*/delegate (make-mat2x4 #f) (make-mat2x2 #f)))
 
- (test */mat2x2/mat3x2 (mat*/delegate (make-mat2x2 #f) (make-mat3x2 #f)))
- (test */mat2x3/mat3x2 (mat*/delegate (make-mat2x3 #f) (make-mat3x2 #f)))
- (test */mat2x4/mat3x2 (mat*/delegate (make-mat2x4 #f) (make-mat3x2 #f)))
+ (test */mat2x2/mat3x2 (m*/delegate (make-mat2x2 #f) (make-mat3x2 #f)))
+ (test */mat2x3/mat3x2 (m*/delegate (make-mat2x3 #f) (make-mat3x2 #f)))
+ (test */mat2x4/mat3x2 (m*/delegate (make-mat2x4 #f) (make-mat3x2 #f)))
 
- (test */mat2x2/mat4x2 (mat*/delegate (make-mat2x2 #f) (make-mat4x2 #f)))
- (test */mat2x3/mat4x2 (mat*/delegate (make-mat2x3 #f) (make-mat4x2 #f)))
- (test */mat2x4/mat4x2 (mat*/delegate (make-mat2x4 #f) (make-mat4x2 #f)))
+ (test */mat2x2/mat4x2 (m*/delegate (make-mat2x2 #f) (make-mat4x2 #f)))
+ (test */mat2x3/mat4x2 (m*/delegate (make-mat2x3 #f) (make-mat4x2 #f)))
+ (test */mat2x4/mat4x2 (m*/delegate (make-mat2x4 #f) (make-mat4x2 #f)))
 
- (test */mat3x2/mat2x3 (mat*/delegate (make-mat3x2 #f) (make-mat2x3 #f)))
- (test */mat3x3/mat2x3 (mat*/delegate (make-mat3x3 #f) (make-mat2x3 #f)))
- (test */mat3x4/mat2x3 (mat*/delegate (make-mat3x4 #f) (make-mat2x3 #f)))
+ (test */mat3x2/mat2x3 (m*/delegate (make-mat3x2 #f) (make-mat2x3 #f)))
+ (test */mat3x3/mat2x3 (m*/delegate (make-mat3x3 #f) (make-mat2x3 #f)))
+ (test */mat3x4/mat2x3 (m*/delegate (make-mat3x4 #f) (make-mat2x3 #f)))
 
- (test */mat3x2/mat3x3 (mat*/delegate (make-mat3x2 #f) (make-mat3x3 #f)))
- (test */mat3x3/mat3x3 (mat*/delegate (make-mat3x3 #f) (make-mat3x3 #f)))
- (test */mat3x4/mat3x3 (mat*/delegate (make-mat3x4 #f) (make-mat3x3 #f)))
+ (test */mat3x2/mat3x3 (m*/delegate (make-mat3x2 #f) (make-mat3x3 #f)))
+ (test */mat3x3/mat3x3 (m*/delegate (make-mat3x3 #f) (make-mat3x3 #f)))
+ (test */mat3x4/mat3x3 (m*/delegate (make-mat3x4 #f) (make-mat3x3 #f)))
 
- (test */mat3x2/mat4x3 (mat*/delegate (make-mat3x2 #f) (make-mat4x3 #f)))
- (test */mat3x3/mat4x3 (mat*/delegate (make-mat3x3 #f) (make-mat4x3 #f)))
- (test */mat3x4/mat4x3 (mat*/delegate (make-mat3x4 #f) (make-mat4x3 #f)))
+ (test */mat3x2/mat4x3 (m*/delegate (make-mat3x2 #f) (make-mat4x3 #f)))
+ (test */mat3x3/mat4x3 (m*/delegate (make-mat3x3 #f) (make-mat4x3 #f)))
+ (test */mat3x4/mat4x3 (m*/delegate (make-mat3x4 #f) (make-mat4x3 #f)))
 
 
- (test */mat4x2/mat2x4 (mat*/delegate (make-mat4x2 #f) (make-mat2x4 #f)))
- (test */mat4x3/mat2x4 (mat*/delegate (make-mat4x3 #f) (make-mat2x4 #f)))
- (test */mat4x4/mat2x4 (mat*/delegate (make-mat4x4 #f) (make-mat2x4 #f)))
+ (test */mat4x2/mat2x4 (m*/delegate (make-mat4x2 #f) (make-mat2x4 #f)))
+ (test */mat4x3/mat2x4 (m*/delegate (make-mat4x3 #f) (make-mat2x4 #f)))
+ (test */mat4x4/mat2x4 (m*/delegate (make-mat4x4 #f) (make-mat2x4 #f)))
 
- (test */mat4x2/mat3x4 (mat*/delegate (make-mat4x2 #f) (make-mat3x4 #f)))
- (test */mat4x3/mat3x4 (mat*/delegate (make-mat4x3 #f) (make-mat3x4 #f)))
- (test */mat4x4/mat3x4 (mat*/delegate (make-mat4x4 #f) (make-mat3x4 #f)))
+ (test */mat4x2/mat3x4 (m*/delegate (make-mat4x2 #f) (make-mat3x4 #f)))
+ (test */mat4x3/mat3x4 (m*/delegate (make-mat4x3 #f) (make-mat3x4 #f)))
+ (test */mat4x4/mat3x4 (m*/delegate (make-mat4x4 #f) (make-mat3x4 #f)))
 
- (test */mat4x2/mat4x4 (mat*/delegate (make-mat4x2 #f) (make-mat4x4 #f)))
- (test */mat4x3/mat4x4 (mat*/delegate (make-mat4x3 #f) (make-mat4x4 #f)))
- (test */mat4x4/mat4x4 (mat*/delegate (make-mat4x4 #f) (make-mat4x4 #f)))
+ (test */mat4x2/mat4x4 (m*/delegate (make-mat4x2 #f) (make-mat4x4 #f)))
+ (test */mat4x3/mat4x4 (m*/delegate (make-mat4x3 #f) (make-mat4x4 #f)))
+ (test */mat4x4/mat4x4 (m*/delegate (make-mat4x4 #f) (make-mat4x4 #f)))
 
  )
 

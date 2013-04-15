@@ -74,7 +74,7 @@
 (define (transpose mat)
   ((transpose/delegate mat) mat))
 
-(define (mat*/delegate mat1 mat2)
+(define (m*/delegate mat1 mat2)
   (if (= (mat-cols mat1) (mat-rows mat2))
       (case (mat-cols mat1)
         ((2) (case (mat-rows mat1)
@@ -118,8 +118,8 @@
                       ((4) */mat4x4/mat4x4)) ))))
       (error "cannot multiply matrix sizes" mat1 mat2)))
 
-(define (mat* mat1 mat2)
-  ((mat*/delegate mat1 mat2) mat1 mat2))
+(define (m* mat1 mat2)
+  ((m*/delegate mat1 mat2) mat1 mat2))
 
 (template
  `((<OP> + -))

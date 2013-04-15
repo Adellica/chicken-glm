@@ -334,6 +334,12 @@
  )
 
 (test-group
+ "mat vec multiplication delegate"
+ (test */mat2x2/vec2 (m*/delegate (mat2x2 1) (vec2 0 0)))
+ (test */mat3x3/vec3 (m*/delegate (mat3x3 1) (vec3 0 0 0)))
+ (test */mat4x4/vec4 (m*/delegate (mat4x4 1) (vec4 0 0 0 0))))
+
+(test-group
  "m+ delegate"
  (test +/mat2x2 (m+/delegate (mat2x2 1) (mat2x2 1)))
  (test +/mat2x3 (m+/delegate (mat2x3 1) (mat2x3 1)))
@@ -345,11 +351,7 @@
  
  (test +/mat4x2 (m+/delegate (mat4x2 1) (mat4x2 1)))
  (test +/mat4x3 (m+/delegate (mat4x3 1) (mat4x3 1)))
- (test +/mat4x4 (m+/delegate (mat4x4 1) (mat4x4 1)))
-
- (test */mat2x2/vec2 (m*/delegate (mat2x2 1) (vec2 0 0)))
- (test */mat3x3/vec3 (m*/delegate (mat3x3 1) (vec3 0 0 0)))
- (test */mat4x4/vec4 (m*/delegate (mat4x4 1) (vec4 0 0 0 0))))
+ (test +/mat4x4 (m+/delegate (mat4x4 1) (mat4x4 1))))
 
 (test "m+"
       (make-mat2 5)

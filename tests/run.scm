@@ -200,6 +200,12 @@
  (test (vec4 6 8 10 12) (+/vec4/vec4 (vec4 1 2 3 4) (vec4 5 6 7 8)))
  )
 
+(test-group
+ "vector + delegate"
+ (test +/vec2/vec2 (v+/delegate (make-vec2 0) (make-vec2 0)))
+ (test +/vec3/vec3 (v+/delegate (make-vec3 0) (make-vec3 0)))
+ (test +/vec4/vec4 (v+/delegate (make-vec4 0) (make-vec4 0))))
+
 (test (ivec2 64 123) (abs/ivec2 (ivec2 -64 -123)))
 
 (test-group

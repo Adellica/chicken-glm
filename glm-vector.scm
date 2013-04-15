@@ -43,40 +43,15 @@
 
  ;; unary operators
  (define length/T (glm R "return(" "glm::length(" T "));"))
- 
-
-;; prefix binary operators, primitive return type
-(template `((OP "dot" "distance"))
-          (define OP/T (glm R "return(" "glm::" "OP" "(" T "," T "));"))))
-
-;; cross is only defined for vec3
-(template
- `((T vec3 ivec3 uvec3))
- (define cross/T! (glm void T "=" "glm::cross(" T "," T ")"))
- (define (cross/T veca vecb) (with-destination (make-T #f) cross/T! veca vecb)))
-
-
-
-;; infix operators
-(template
- `((T vec2  vec3  vec4
-      uvec2 uvec3 uvec4
-      ivec2 ivec3 ivec4)) 
- 
+   
+ ;; infix operators
  (template `((OP + - * /) )
            
            (define OP/T/T! (glm void T "=" T "OP" T))
            (define (OP/T/T operand1 operand2)
-             (with-destination (make-T #f) OP/T/T! operand1 operand2))))
+             (with-destination (make-T #f) OP/T/T! operand1 operand2)))
 
-
-;; vector unary-operators
-;; TODO: write delegate procedures for these
-(template
- `((T vec2  vec3  vec4
-      ivec2 ivec3 ivec4
-      uvec2 uvec3 uvec4))
-
+ ;; vector unary operators
  (template `((OP
               abs      ceil ;;  floor       fract round roundEven  sign
               sin           ;;  cos  tan  sinh  cosh  tanh
@@ -86,7 +61,20 @@
               ;;   normalize
               ))
            (define OP/T! (glm void T "=" "glm::OP(" T ")"))
-           (define (OP/T vec) (with-destination (make-T #f) OP/T! vec))))
+           (define (OP/T vec) (with-destination (make-T #f) OP/T! vec)))
+ 
+
+ ;; prefix binary operators, primitive return type
+ (template `((OP "dot" "distance"))
+           (define OP/T (glm R "return(" "glm::" "OP" "(" T "," T "));"))))
+
+;; cross is only defined for vec3
+(template
+ `((T vec3 ivec3 uvec3))
+ (define cross/T! (glm void T "=" "glm::cross(" T "," T ")"))
+ (define (cross/T veca vecb) (with-destination (make-T #f) cross/T! veca vecb)))
+
+
 (define (v+/delegate v1 v2)
   (if (f32vector? v1)      
       (if (f32vector? v2)

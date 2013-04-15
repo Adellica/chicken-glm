@@ -130,8 +130,10 @@
                       ((4) */mat4x4/mat4x4)) ))))
       (error "cannot multiply matrix sizes" mat1 mat2)))
 
-(define (m* mat1 mat2)
-  ((m*/delegate mat1 mat2) mat1 mat2))
+
+(define (m* m m/v)
+  ((m*/delegate m m/v) m m/v))
+
 
 (template
  `((<OP> + -))

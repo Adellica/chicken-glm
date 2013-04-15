@@ -182,9 +182,9 @@
  (define (<OP>/delegate sqmat)
    (if (and (mat? sqmat) (= (mat-cols sqmat) (mat-rows sqmat)))
        (case (mat-cols sqmat)
-         ((2) inverse/mat2x2)
-         ((3) inverse/mat3x3)
-         ((4) inverse/mat4x4))))
+         ((2) <OP>/mat2x2)
+         ((3) <OP>/mat3x3)
+         ((4) <OP>/mat4x4))))
 
  (define (<OP> sqmat)
    ((determinant/delegate sqmat) sqmat)))

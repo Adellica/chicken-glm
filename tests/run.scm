@@ -367,11 +367,16 @@
  ;; (test (mat4 0.5) (inverse (mat4 2)))
  )
 
-(test "m+"
-      (make-mat2 5)
-      (m+ (make-mat 2 (f32vector 1 2
-                                 3 4))
-          (make-mat 2 (f32vector 4 3
-                                 2 1))))
+(test-group
+ "m+"
+ (test "m+"
+       (make-mat2 5)
+       (m+ (make-mat 2 (f32vector 1 2
+                                  3 4))
+           (make-mat 2 (f32vector 4 3
+                                  2 1))))
+
+ (test (vec2 11 22) (v+ (vec2 1 2) (vec2 10 20)))
+ (test (vec3 11 22 33) (m+ (vec3 1 2 3) (vec3 10 20 30))))
 
 

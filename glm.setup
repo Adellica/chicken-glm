@@ -3,7 +3,8 @@
 (compile -s -c++ glm.scm -J)
 (compile -s -c++ glm.import.scm)
 
-(system "csi -s tests/run.scm")
+
 
 (install-extension 'glm
                    '("glm.so" "glm.import.so"))
+

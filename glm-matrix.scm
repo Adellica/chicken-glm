@@ -74,17 +74,6 @@
    (define (<OP>/matIxJ mat1 mat2)
      (with-destination (make-matIxJ #f) <OP>/matIxJ! mat1 mat2)))))
 
-(template
- `((T mat3 mat4))
- (define transpose/T! (glm void T "=" "glm::transpose(" T ")"))
- (define (transpose/T mat)  (with-destination (make-T #f) transpose/T! mat)))
-
-(define (transpose/delegate mat)
-  (cond ((mat4? mat) transpose/mat4)
-        ((mat3? mat) transpose/mat3)))
-
-(define (transpose mat)
-  ((transpose/delegate mat) mat))
 
 (define (m*/delegate mat1 mat2)
   (if (mat? mat1)
@@ -164,10 +153,18 @@
    ((m<OP>/delegate mat1 mat2) mat1 mat2)))
 
 
-
+;; TODO: add all matrix sizes
 (template
  `((T mat3 mat4))
- (define determinant/T (glm float "return(" "glm::determinant(" T ")" ")")))
+ (define transpose/T! (glm void T "=" "glm::transpose(" T ")"))
+ (define (transpose/T mat)  (with-destination (make-T #f) transpose/T! mat)))
+
+(define (transpose/delegate mat)
+  (cond ((mat4? mat) transpose/mat4)
+        ((mat3? mat) transpose/mat3)))
+
+(define (transpose mat)
+  ((transpose/delegate mat) mat))
 
 
 

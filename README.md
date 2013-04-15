@@ -1,9 +1,10 @@
-chicken-glm
-===========
 
-Chicken Scheme bindings for the GLM.
+# chicken-glm
 
-[GLM](http://glm.g-truc.net/) is a matrix and vector math library inspired by GLSL.
+  [GLM]:http://glm.g-truc.net/
+
+Chicken Scheme bindings for [GLM]. [GLM] is a matrix and vector math library inspired by GLSL. 
+These bindings are not complete, but should cover the basic matrix and vector needs within the graphics-domain.
 
 ## Quickstart
 

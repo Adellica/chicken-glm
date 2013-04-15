@@ -51,11 +51,23 @@
    (define (*/matIxJ/matKxI mat1 mat2)
      (with-destination (make-matKxJ #f) */matIxJ/matKxI! mat1 mat2)))))
 
-;; element-wise matrix operators
 (template
  `((I 2 3 4))
+
+ 
+ ;; matrix-vector operators
+ ;; TODO: add mat4x3 * vec4 => vec3
+ (template
+  `((<OP> *))
+   
+  (define <OP>/matIxI/vecI! (glm void vecI "=" matIxI "<OP>" vecI))
+  (define (<OP>/matIxI/vecI mat vec)
+    (with-destination (make-vecI #f) <OP>/matIxI/vecI! mat vec)))
+
+ ;; element-wise matrix operators
  (template
   `((J 2 3 4))
+
   (template
    `((<OP> + -))
    (define <OP>/matIxJ! (glm void matIxJ "=" matIxJ "<OP>" matIxJ))

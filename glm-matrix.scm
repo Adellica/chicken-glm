@@ -168,3 +168,23 @@
 
 
 
+(template
+ `((T mat2x2 mat3x3 mat4x4))
+ (define determinant/T (glm float "return(" "glm::determinant(" T ")" ")"))
+ 
+ (define inverse/T!    (glm void T "=" "glm::inverse("     T ")"))
+ (define (inverse/T mat)
+   (with-destination (make-T #f) inverse/T! mat)))
+
+
+(template
+ `((<OP> inverse determinant))
+ (define (<OP>/delegate sqmat)
+   (if (and (mat? sqmat) (= (mat-cols sqmat) (mat-rows sqmat)))
+       (case (mat-cols sqmat)
+         ((2) inverse/mat2x2)
+         ((3) inverse/mat3x3)
+         ((4) inverse/mat4x4))))
+
+ (define (<OP> sqmat)
+   ((determinant/delegate sqmat) sqmat)))

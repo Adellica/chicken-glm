@@ -353,6 +353,20 @@
  (test +/mat4x3 (m+/delegate (mat4x3 1) (mat4x3 1)))
  (test +/mat4x4 (m+/delegate (mat4x4 1) (mat4x4 1))))
 
+(test-group
+ "inverse"
+ (test 4.0 (determinant (mat2 2)))
+ (test 8.0 (determinant (mat3 2)))
+ (test 16.0 (determinant (mat4 2))))
+
+(test-group
+ "inverse"
+ ;; TODO: make -0.0 and 0.0 == true
+ ;; (test (mat2 0.5) (inverse (mat2 2)))
+ ;; (test (mat3 0.5) (inverse (mat3 2)))
+ ;; (test (mat4 0.5) (inverse (mat4 2)))
+ )
+
 (test "m+"
       (make-mat2 5)
       (m+ (make-mat 2 (f32vector 1 2

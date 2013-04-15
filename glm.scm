@@ -12,8 +12,8 @@
 
 (define (srfi4-vector-ref vec idx)
   (define (check! p) (if p (error "vector of invalid length")))
-  ((cond [(f32vector? vec) (check! (<= (f32vector-length vec) 4)) f32vector-ref]
-         [(s32vector? vec) (check! (<= (s32vector-length vec) 4)) s32vector-ref]) vec idx))
+  ((cond [(f32vector? vec) (check! (> (f32vector-length vec) 4)) f32vector-ref]
+         [(s32vector? vec) (check! (> (s32vector-length vec) 4)) s32vector-ref]) vec idx))
 
 (define (.x vec) (srfi4-vector-ref vec 0))
 (define (.y vec) (srfi4-vector-ref vec 1))

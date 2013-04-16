@@ -108,7 +108,7 @@
 
  ;; OBS: this fails on glm 0.9.4 (I have submitted a patch which might
  ;; fix it: https://github.com/g-truc/glm/pull/70)
- (test (make-mat 2
+ (test "fail: https://github.com/g-truc/glm/pull/70"(make-mat 2
                  (f32vector 1 0 0 0
                             0 1 0 0))
        (mat2x4 1))

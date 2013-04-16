@@ -363,7 +363,7 @@
 
 (test-group
  "inverse"
- ;; TODO: make -0.0 and 0.0 == true
+ ;; TODO: make -0.0 == 0.0 ==> true
  ;; (test (mat2 0.5) (inverse (mat2 2)))
  ;; (test (mat3 0.5) (inverse (mat3 2)))
  ;; (test (mat4 0.5) (inverse (mat4 2)))

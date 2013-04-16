@@ -441,3 +441,21 @@
  
 
 
+(test-group
+ "m* vector-vector"
+ 
+ (test (vec2 10 40)        (m* (vec2 1 2)     (vec2 10 20)))
+ (test (vec3 10 40 90)     (m* (vec3 1 2 3)   (vec3 10 20 30)))
+ (test (vec4 10 40 90 160) (m* (vec4 1 2 3 4) (vec4 10 20 30 40)))
+ 
+ (test (dvec2 10 40)        (m* (dvec2 1 2)     (dvec2 10 20)))
+ (test (dvec3 10 40 90)     (m* (dvec3 1 2 3)   (dvec3 10 20 30)))
+ (test (dvec4 10 40 90 160) (m* (dvec4 1 2 3 4) (dvec4 10 20 30 40)))
+ 
+ (test (ivec2 10 40)        (m* (ivec2 1 2)     (ivec2 10 20)))
+ (test (ivec3 10 40 90)     (m* (ivec3 1 2 3)   (ivec3 10 20 30)))
+ (test (ivec4 10 40 90 160) (m* (ivec4 1 2 3 4) (ivec4 10 20 30 40)))
+ 
+ (test (uvec2 10 40)        (m* (uvec2 1 2)     (uvec2 10 20)))
+ (test (uvec3 10 40 90)     (m* (uvec3 1 2 3)   (uvec3 10 20 30)))
+ (test (uvec4 10 40 90 160) (m* (uvec4 1 2 3 4) (uvec4 10 20 30 40))))

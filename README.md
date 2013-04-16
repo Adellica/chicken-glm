@@ -1,4 +1,3 @@
-
 # chicken-glm
 
   [GLM]:http://glm.g-truc.net/
@@ -83,3 +82,8 @@ These bindings are not complete, but should cover the basic matrix and vector ne
 #> (uvec2 1 2)
  #u32(1 2)
 ```
+
+# TODO
+
+- Add column-selectors, eg `(mat3x4-col mat 2) => vec4`
+- Hide helper-macros like template

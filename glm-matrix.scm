@@ -4,10 +4,10 @@
 
 ;; matrix constructors
 
-(template
+(begin-template
  `((I 2 3 4))
  
- (template
+ (begin-template
   `((J 2 3 4))
   
   (define (make-matIxJ fill)    
@@ -36,28 +36,28 @@
 
 ;; matrix by matrix multiplication
 ;; matrix-sizes can be IxJ * KxI
-(template
+(begin-template
  `((I 2 3 4))
 
  ;; our I give us all possible types
- (template
+ (begin-template
   `((J 2 3 4))
 
   ;; JxK give the three legal multiplication sizes
-  (template
+  (begin-template
    `((K 2 3 4))
   
    (define */matIxJ/matKxI! (glm void matKxJ "=" matIxJ "*" matKxI))
    (define (*/matIxJ/matKxI mat1 mat2)
      (with-destination (make-matKxJ #f) */matIxJ/matKxI! mat1 mat2)))))
 
-(template
+(begin-template
  `((I 2 3 4))
 
  
  ;; matrix-vector operators
  ;; TODO: add mat4x3 * vec4 => vec3
- (template
+ (begin-template
   `((<OP> *))
    
   (define <OP>/matIxI/vecI! (glm void vecI "=" matIxI "<OP>" vecI))
@@ -65,10 +65,10 @@
     (with-destination (make-vecI #f) <OP>/matIxI/vecI! mat vec)))
 
  ;; element-wise matrix operators
- (template
+ (begin-template
   `((J 2 3 4))
 
-  (template
+  (begin-template
    `((<OP> + -))
    (define <OP>/matIxJ! (glm void matIxJ "=" matIxJ "<OP>" matIxJ))
    (define (<OP>/matIxJ mat1 mat2)
@@ -135,7 +135,7 @@
   ((m*/delegate m m/v) m m/v))
 
 
-(template
+(begin-template
  `((<OP> + -))
  (define (m<OP>/delegate mat1 mat2)
    (if (mat? mat1)
@@ -160,7 +160,7 @@
 
 
 ;; TODO: add all matrix sizes
-(template
+(begin-template
  `((T mat3 mat4))
  (define transpose/T! (glm void T "=" "glm::transpose(" T ")"))
  (define (transpose/T mat)  (with-destination (make-T #f) transpose/T! mat)))
@@ -174,7 +174,7 @@
 
 
 
-(template
+(begin-template
  `((T mat2x2 mat3x3 mat4x4))
  (define determinant/T (glm float "return(" "glm::determinant(" T ")" ")"))
  
@@ -183,7 +183,7 @@
    (with-destination (make-T #f) inverse/T! mat)))
 
 
-(template
+(begin-template
  `((<OP> inverse determinant))
  (define (<OP>/delegate sqmat)
    (if (and (mat? sqmat) (= (mat-cols sqmat) (mat-rows sqmat)))

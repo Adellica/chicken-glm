@@ -1,7 +1,7 @@
 
 ;; *** vector constructors
 
-(template
+(begin-template
  `((P vec dvec   ivec uvec   bvec)
    (R ,glmtype->schemetype)) ;; f32vector s32vector etc
  
@@ -10,7 +10,7 @@
  (define (P4 x y z w) (R x y z w)))
 
 
-(template
+(begin-template
  `((D 2 3 4))
  (define (make-vecD  fill) (make-f32vector D fill))
  (define (make-dvecD fill) (make-f64vector D fill))
@@ -22,7 +22,7 @@
 
 
 ;; OBS: we won't be able to distinguish between vec4 and mat2 for example
-(template
+(begin-template
  `((D 2 3 4))
 
  (define ( vecD? vec) (and (f32vector? vec) (= (f32vector-length vec) D)))
@@ -35,7 +35,7 @@
 
 
 ;;; vector operations
-(template
+(begin-template
  `((T  vec2  vec3  vec4
        dvec2 dvec3 dvec4
        uvec2 uvec3 uvec4
@@ -48,14 +48,14 @@
  (define length/T (glm R "return(" "glm::length(" T "));"))
    
  ;; infix operators
- (template `((OP + - * /) )
+ (begin-template `((OP + - * /) )
            
            (define OP/T/T! (glm void T "=" T "OP" T))
            (define (OP/T/T operand1 operand2)
              (with-destination (make-T #f) OP/T/T! operand1 operand2)))
 
  ;; vector unary operators
- (template `((OP
+ (begin-template `((OP
               abs      ceil ;;  floor       fract round roundEven  sign
               sin           ;;  cos  tan  sinh  cosh  tanh
               ;;   asin acos atan asinh acosh atanh
@@ -68,11 +68,11 @@
  
 
  ;; prefix binary operators, primitive return type
- (template `((OP "dot" "distance"))
+ (begin-template `((OP "dot" "distance"))
            (define OP/T (glm R "return(" "glm::" "OP" "(" T "," T "));"))))
 
 ;; vector-scalar infix operators (excludes bvec types)
-(template
+(begin-template
  `((T  vec2  vec3  vec4
        dvec2 dvec3 dvec4
        uvec2 uvec3 uvec4
@@ -81,7 +81,7 @@
    (R ,value-type))
  
  ;; infix operators
- (template `((OP + - * /) )
+ (begin-template `((OP + - * /) )
       
            (define OP/T/scalar! (glm void T "=" T "OP" R))
            (define (OP/T/scalar vec scalar)
@@ -89,7 +89,7 @@
 
 
 ;; cross is only defined for vec3
-(template
+(begin-template
  `((T vec3 dvec3 ivec3 uvec3 bvec3))
  (define cross/T! (glm void T "=" "glm::cross(" T "," T ")"))
  (define (cross/T veca vecb) (with-destination (make-T #f) cross/T! veca vecb)))
@@ -154,7 +154,7 @@
 (define (v* v1 v2)
   ((v*/delegate v1 v2) v1 v2))
 
-(template
+(begin-template
  `((<OP> + -))
 
  (define (<OP>/vec/scalar/delegate vec scalar)

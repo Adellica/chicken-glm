@@ -170,7 +170,7 @@
 
 ;; (rewrite `(define length/T (glm void "return(" T "," T ");")) "T" "vec3")
 
-(define-syntax template
+(define-syntax begin-template
   (er-macro-transformer
    (lambda (x r t)
      (let* ((spec (eval (cadr x)))

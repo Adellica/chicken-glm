@@ -119,6 +119,7 @@
                      ((3) <OP>/uvec3/scalar)
                      ((4) <OP>/uvec4/scalar)))))))
 
+ ;; TODO: make this not terrible
  (define (v<OP>/delegate v1 v2)
    (if (number? v2)
        (<OP>/vec/scalar/delegate v1 v2)

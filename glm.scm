@@ -78,8 +78,10 @@
     ;; vects and mats need to cast from f32vector/s32vectors to glm types 
     ((
       vec2 vec3 vec4
+      dvec2 dvec3 dvec4 
       ivec2 ivec3 ivec4 
       uvec2 uvec3 uvec4 
+      bvec2 bvec3 bvec4 
       
       mat2 mat2x2 mat2x3 mat2x4
       mat3 mat3x2 mat3x3 mat3x4

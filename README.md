@@ -70,9 +70,7 @@ These bindings are not complete, but should cover the basic matrix and vector ne
 #> (m* (scale (mat4 1) (vec3 1 2 3)) (vec4 10 20 30 0))
 #f32(10.0 40.0 90.0 0.0)
 
-;; all primitives from glm/glsl are in the works:
-;; (don't yet work with v+, but you can do (+/ivec2/ivec2 ... ))
-
+;; all primitives from glm/glsl are supported:
 #> (dvec2 1 2)
  #f64(1.0 2.0)
 #> (ivec2 1 2)

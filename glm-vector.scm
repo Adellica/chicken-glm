@@ -37,8 +37,11 @@
 ;;; vector operations
 (template
  `((T  vec2  vec3  vec4
+       dvec2 dvec3 dvec4
        uvec2 uvec3 uvec4
-       ivec2 ivec3 ivec4)
+       ivec2 ivec3 ivec4
+       bvec2 bvec3 bvec4
+       )
    (R ,value-type))
 
  ;; unary operators
@@ -88,7 +91,43 @@
                  ((4) <OP>/vec4/vec4))
                (error "vector dimension mismatch" v1 v2))
            (error "must be vector" v2))
-       (error "unknown vector type" v1)))
+       (if (f64vector? v1)
+           (if (f64vector? v2)
+               (if (= (f64vector-length v1) (f64vector-length v2))
+                   (case (f64vector-length v1)
+                     ((2) <OP>/dvec2/dvec2)
+                     ((3) <OP>/dvec3/dvec3)
+                     ((4) <OP>/dvec4/dvec4))
+                   (error "vector dimension mismatch" v1 v2))
+               (error "must be vector" v2))
+           (if (s32vector? v1)
+               (if (s32vector? v2)
+                   (if (= (s32vector-length v1) (s32vector-length v2))
+                       (case (s32vector-length v1)
+                         ((2) <OP>/ivec2/ivec2)
+                         ((3) <OP>/ivec3/ivec3)
+                         ((4) <OP>/ivec4/ivec4))
+                       (error "vector dimension mismatch" v1 v2))
+                   (error "must be vector" v2))
+               (if (u32vector? v1)
+                   (if (u32vector? v2)
+                       (if (= (u32vector-length v1) (u32vector-length v2))
+                           (case (u32vector-length v1)
+                             ((2) <OP>/uvec2/uvec2)
+                             ((3) <OP>/uvec3/uvec3)
+                             ((4) <OP>/uvec4/uvec4))
+                           (error "vector dimension mismatch" v1 v2))
+                       (error "must be vector" v2))
+                   (if (u8vector? v1)
+                       (if (u8vector? v2)
+                           (if (= (u8vector-length v1) (u8vector-length v2))
+                               (case (u8vector-length v1)
+                                 ((2) <OP>/bvec2/bvec2)
+                                 ((3) <OP>/bvec3/bvec3)
+                                 ((4) <OP>/bvec4/bvec4))
+                               (error "vector dimension mismatch" v1 v2))
+                           (error "must be vector" v2))
+                       (error "unknown vector type" v1)))))))
 
  (define (v<OP> v1 v2)
    ((v<OP>/delegate v1 v2) v1 v2)))

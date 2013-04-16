@@ -370,7 +370,7 @@
  )
 
 (test-group
- "m+"
+ "m+ vector-vector"
  (test "m+"
        (make-mat2 5)
        (m+ (make-mat 2 (f32vector 1 2
@@ -396,9 +396,8 @@
 
  (test (bvec2 0 1)         (m+ (bvec2 0 1)     (bvec2 0 1)))
  (test (bvec3 0 1 0)       (m+ (bvec3 0 1 0)   (bvec3 0 1 0)))
- (test (bvec4 0 1 0 1)     (m+ (bvec4 0 1 0 1) (bvec4 0 1 0 1)))
+ (test (bvec4 0 1 0 1)     (m+ (bvec4 0 1 0 1) (bvec4 0 1 0 1))))
 
 
- )
 
 

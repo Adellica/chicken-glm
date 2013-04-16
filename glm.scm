@@ -170,30 +170,42 @@
 
 ;; (rewrite `(define length/T (glm void "return(" T "," T ");")) "T" "vec3")
 
-(define-syntax begin-template
+(define-syntax template
   (er-macro-transformer
    (lambda (x r t)
-     (let* ((spec (eval (cadr x)))
+     (let* ((spec (eval (second x)))
+            (prepend (third x))
+            (body (fourth x))
+            (postpend (fifth x))
+            
             (tspec (car spec))   ;; (<template> <element> ...)
             (rspec (cdr spec))   ;; secondary rewriters
             (search (car tspec)) ;; <template>
             (lst (cdr tspec))    ;; (<elements> ...)
-            (body (cddr x)))
+            )
        
-       (cons (r 'begin)
-             (apply append
-                    (map (lambda (replace)
-                           (fold
-                            ;; second rewrite (optional lambdas)
-                            (lambda (s/r body)
-                              (let ((s (car s/r))
-                                    (proc (cadr s/r)))
-                                (rewrite body s (lambda (match) (proc replace)))))
-                            ;; first rewrite to replace tspec
-                            (rewrite body search replace)
-                            rspec))
-                         lst)))))))
+       (append  (list prepend)
+                (apply append
+                       (map (lambda (replace)
+                              (fold
+                               ;; second rewrite (optional lambdas)
+                               (lambda (s/r body)
+                                 (let ((s (car s/r))
+                                       (proc (cadr s/r)))
+                                   (rewrite body s (lambda (match) (proc replace)))))
+                               ;; first rewrite to replace tspec
+                               (rewrite body search replace)
+                               rspec))
+                            lst))
+                (list postpend))))))
 
+(define-syntax begin-template
+  (syntax-rules ()
+    ((_ rules body ...) (template rules begin (body ...) '()))))
+
+(define-syntax cond-template
+  (syntax-rules ()
+    ((_ rules body else-body) (template rules cond (body) (else else-body)))))
 
 
 (include "glm-vector.scm")

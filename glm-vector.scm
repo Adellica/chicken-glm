@@ -87,6 +87,7 @@
            (define (OP/T/scalar vec scalar)
              (with-destination (make-T #f) OP/T/scalar! vec scalar))))
 
+
 ;; cross is only defined for vec3
 (template
  `((T vec3 dvec3 ivec3 uvec3 bvec3))
@@ -114,8 +115,44 @@
           ((3) ,(rewrite form variable (conc precision-prefix "vec3")))
           ((4) ,(rewrite form variable (conc precision-prefix "vec4")))))))))
 
+;; TODO: template this because it's ugly
+(define (v*/delegate v1 v2)
+  (cond
+   ((f32vector? v1) (if (f32vector? v2)
+                        (if (= (f32vector-length v1) (f32vector-length v2))
+                            (vector-length-dispatch v1 f32vector */v1/v1)
+                            (error "vector size mismatch" v1 v2))
+                        (if (number? v2)
+                            (vector-length-dispatch v1 f32vector */v1/scalar)
+                            (error "invalid combo" v1 v2))))
+   ((f64vector? v1) (if (f64vector? v2)
+                        (if (= (f64vector-length v1) (f64vector-length v2))
+                            (vector-length-dispatch v1 f64vector */v1/v1)
+                            (error "vector size mismatch" v1 v2))
+                        (if (number? v2)
+                            (vector-length-dispatch v1 f64vector */v1/scalar)
+                            (error "invalid combo" v1 v2))))
 
+   ((s32vector? v1) (if (s32vector? v2)
+                        (if (= (s32vector-length v1) (s32vector-length v2))
+                            (vector-length-dispatch v1 s32vector */v1/v1)
+                            (error "vector size mismatch" v1 v2))
+                        (if (number? v2)
+                            (vector-length-dispatch v1 s32vector */v1/scalar)
+                            (error "invalid combo" v1 v2))))
+   ((u32vector? v1) (if (u32vector? v2)
+                        (if (= (u32vector-length v1) (u32vector-length v2))
+                            (vector-length-dispatch v1 u32vector */v1/v1)
+                            (error "vector size mismatch" v1 v2))
+                        (if (number? v2)
+                            (vector-length-dispatch v1 u32vector */v1/scalar)
+                            (error "invalid combo" v1 v2))))
+   ;; note: u8vectors not included in glm: bvec2 * bool is either the
+   ;; original bvec2 or (bvec2 0)
+   (else (error "invalid operand type" v1))))
 
+(define (v* v1 v2)
+  ((v*/delegate v1 v2) v1 v2))
 
 (template
  `((<OP> + -))

@@ -128,7 +128,7 @@
                 ((3) */mat3x3/vec3)
                 ((4) */mat4x4/vec4))
               (error "invalid dimensions" mat1 mat2)))
-      (error "must be matrix" mat1)))
+      (v*/delegate mat1 mat2)))
 
 
 (define (m* m m/v)

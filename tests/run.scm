@@ -418,6 +418,25 @@
  (test (uvec3 11 12 13)    (m+ (uvec3 1 2 3) 10))
  (test (uvec4 11 12 13 14) (m+ (uvec4 1 2 3 4) 10)))
 
+(test-group
+ "m* vector-scalar"
+ 
+ (test (vec2 10 20)       (m* (vec2 1 2) 10))
+ (test (vec3 10 20 30)    (m* (vec3 1 2 3) 10))
+ (test (vec4 10 20 30 40) (m* (vec4 1 2 3 4) 10))
+
+ (test (dvec2 10 20)       (m* (dvec2 1 2) 10))
+ (test (dvec3 10 20 30)    (m* (dvec3 1 2 3) 10))
+ (test (dvec4 10 20 30 40) (m* (dvec4 1 2 3 4) 10))
+
+ (test (ivec2 10 20)       (m* (ivec2 1 2) 10))
+ (test (ivec3 10 20 30)    (m* (ivec3 1 2 3) 10))
+ (test (ivec4 10 20 30 40) (m* (ivec4 1 2 3 4) 10))
+
+ (test (uvec2 10 20)       (m* (uvec2 1 2) 10))
+ (test (uvec3 10 20 30)    (m* (uvec3 1 2 3) 10))
+ (test (uvec4 10 20 30 40) (m* (uvec4 1 2 3 4) 10)))
+
 
  
 

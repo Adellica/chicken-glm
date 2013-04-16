@@ -73,7 +73,7 @@
 
 ;; cross is only defined for vec3
 (template
- `((T vec3 ivec3 uvec3))
+ `((T vec3 dvec3 ivec3 uvec3 bvec3))
  (define cross/T! (glm void T "=" "glm::cross(" T "," T ")"))
  (define (cross/T veca vecb) (with-destination (make-T #f) cross/T! veca vecb)))
 

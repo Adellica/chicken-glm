@@ -75,17 +75,20 @@
  (define (cross/T veca vecb) (with-destination (make-T #f) cross/T! veca vecb)))
 
 
-(define (v+/delegate v1 v2)
-  (if (f32vector? v1)      
-      (if (f32vector? v2)
-          (if (= (f32vector-length v1) (f32vector-length v2))
-              (case (f32vector-length v1)
-                ((2) +/vec2/vec2)
-                ((3) +/vec3/vec3)
-                ((4) +/vec4/vec4))
-              (error "vector dimension mismatch" v1 v2))
-          (error "must be vector" v2))
-      (error "unknown vector type" v1)))
+(template
+ `((<OP> + -))
 
-(define (v+ v1 v2)
-  ((v+/delegate v1 v2) v1 v2))
+ (define (v<OP>/delegate v1 v2)
+   (if (f32vector? v1)      
+       (if (f32vector? v2)
+           (if (= (f32vector-length v1) (f32vector-length v2))
+               (case (f32vector-length v1)
+                 ((2) <OP>/vec2/vec2)
+                 ((3) <OP>/vec3/vec3)
+                 ((4) <OP>/vec4/vec4))
+               (error "vector dimension mismatch" v1 v2))
+           (error "must be vector" v2))
+       (error "unknown vector type" v1)))
+
+ (define (v<OP> v1 v2)
+   ((v<OP>/delegate v1 v2) v1 v2)))

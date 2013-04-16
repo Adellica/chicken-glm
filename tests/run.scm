@@ -204,7 +204,9 @@
  "vector + delegate"
  (test +/vec2/vec2 (v+/delegate (make-vec2 0) (make-vec2 0)))
  (test +/vec3/vec3 (v+/delegate (make-vec3 0) (make-vec3 0)))
- (test +/vec4/vec4 (v+/delegate (make-vec4 0) (make-vec4 0))))
+ (test +/vec4/vec4 (v+/delegate (make-vec4 0) (make-vec4 0)))
+ ;; it worked for all +, let's just test one - (it's the same code)
+ (test -/vec2/vec2 (v-/delegate (make-vec2 0) (make-vec2 0))))
 
 (test (ivec2 64 123) (abs/ivec2 (ivec2 -64 -123)))
 

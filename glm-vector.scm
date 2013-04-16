@@ -94,30 +94,38 @@
  (define (cross/T veca vecb) (with-destination (make-T #f) cross/T! veca vecb)))
 
 
+;; (pp (expand '(vector-length-dispatch variable f32vector +/type/for/variable)))
+(define-syntax vector-length-dispatch
+  (er-macro-transformer
+   (lambda (x r t)     
+     (let* ((variable (cadr x))
+            (vtype (caddr x))
+            (form (cadddr x))
+            (precision-prefix (case vtype
+                                ((f32vector) "")
+                                ((f64vector) 'd)
+                                ((s32vector) 'i)
+                                ((u32vector) 'u)
+                                ((u8vector)  'b)))
+            (vector-type? (string->symbol (conc vtype "?")))
+            (vector-length (string->symbol (conc vtype "-length"))))
+       `(begin (,(r 'case) (,vector-length ,variable)
+          ((2) ,(rewrite form variable (conc precision-prefix "vec2")))
+          ((3) ,(rewrite form variable (conc precision-prefix "vec3")))
+          ((4) ,(rewrite form variable (conc precision-prefix "vec4")))))))))
+
+
+
+
 (template
  `((<OP> + -))
 
  (define (<OP>/vec/scalar/delegate vec scalar)
-   (if (f32vector? vec)
-       (case (f32vector-length vec)
-         ((2) <OP>/vec2/scalar)
-         ((3) <OP>/vec3/scalar)
-         ((4) <OP>/vec4/scalar))
-       (if (f64vector? vec)
-           (case (f64vector-length vec)
-             ((2) <OP>/dvec2/scalar)
-             ((3) <OP>/dvec3/scalar)
-             ((4) <OP>/dvec4/scalar))
-           (if (s32vector? vec)
-               (case (s32vector-length vec)
-                 ((2) <OP>/ivec2/scalar)
-                 ((3) <OP>/ivec3/scalar)
-                 ((4) <OP>/ivec4/scalar))
-               (if (u32vector? vec)
-                   (case (u32vector-length vec)
-                     ((2) <OP>/uvec2/scalar)
-                     ((3) <OP>/uvec3/scalar)
-                     ((4) <OP>/uvec4/scalar)))))))
+   (cond
+    ((f32vector? vec) (vector-length-dispatch vec f32vector <OP>/vec/scalar))
+    ((f64vector? vec) (vector-length-dispatch vec f64vector <OP>/vec/scalar))
+    ((s32vector? vec) (vector-length-dispatch vec s32vector <OP>/vec/scalar))
+    ((u32vector? vec) (vector-length-dispatch vec u32vector <OP>/vec/scalar))))
 
  ;; TODO: make this not terrible
  (define (v<OP>/delegate v1 v2)

@@ -172,3 +172,7 @@
 
  (define (v<OP> v1 v2)
    ((v<OP>/delegate v1 v2) v1 v2)))
+
+;; this should do what we want,
+;; but let's keep an eye on this guy:
+(define v= equal?)

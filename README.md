@@ -86,6 +86,7 @@ These bindings are not complete, but should cover the basic matrix and vector ne
 # TODO
 
 - Add column-selectors, eg `(mat-col mat3x4 2) => vec4`
+- Better way to hard-code matrices, like `(list->mat '((1 0) (0 1))) => mat2`
 - Type-conversions, eg `vec4->ivec4`, `dmat->mat`
 - Dispatchers (like `v+`) for all operations (eg. we have `length/dvec3` but no generic `length/vec`)
 - Hide helper-macros like template

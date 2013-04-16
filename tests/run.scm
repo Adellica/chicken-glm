@@ -394,9 +394,9 @@
  (test (uvec3 11 22 33)    (m+ (uvec3 1 2 3) (uvec3 10 20 30)))
  (test (uvec4 11 22 33 44) (m+ (uvec4 1 2 3 4) (uvec4 10 20 30 40)))
 
- (test (bvec2 0 1)     (m+ (bvec2 0 1)     (bvec2 0 0)))
- (test (bvec3 0 1 0)   (m+ (bvec3 0 1 0)   (bvec3 0 0 0)))
- (test (bvec4 0 1 0 1) (m+ (bvec4 0 1 0 1) (bvec4 0 0 0 0)))
+ (test (bvec2 0 1)     (m+ (bvec2 0 1)     (bvec2 0 1)))
+ (test (bvec3 0 1 0)   (m+ (bvec3 0 1 0)   (bvec3 0 1 0)))
+ (test (bvec4 0 1 0 1) (m+ (bvec4 0 1 0 1) (bvec4 0 1 0 1)))
 
  )
 

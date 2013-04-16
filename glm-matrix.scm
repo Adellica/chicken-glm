@@ -75,6 +75,7 @@
      (with-destination (make-matIxJ #f) <OP>/matIxJ! mat1 mat2)))))
 
 
+;; TODO: add support for dmat and dvec
 (define (m*/delegate mat1 mat2)
   (if (mat? mat1)
       (if (mat? mat2)

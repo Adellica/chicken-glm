@@ -1,6 +1,6 @@
 ((author "Kristian Lein-Mathisen")
  (synopsis "Chicken bindings for GLM, a graphics-oriented math library")
- (license "BSD")
+ (license "MIT")
  (test-depends test)
  (category math)
  (files "glm.scm"

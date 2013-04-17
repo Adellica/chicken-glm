@@ -1,1 +1,11 @@
-((Author "Kristian Lein-Mathisen"))
+((author "Kristian Lein-Mathisen")
+ (synopsis "Chicken bindings for GLM, a graphics-oriented math library")
+ (license "BSD")
+ (test-depends test)
+ (category math)
+ (files "glm.scm"
+        "glm-vector.scm"
+        "glm-matrix.scm"
+        "glm-matrix-record.scm"
+        "gtc-matrix-transform.scm"
+        "tests/run.scm"))

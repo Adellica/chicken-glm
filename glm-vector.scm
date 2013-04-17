@@ -1,4 +1,29 @@
 
+
+;; pick the right procedure based on the size of the variable
+;; vector sizes expand to 2, 3 or 4 dimensions.
+;; (pp (expand '(vector-length-dispatch variable f32vector +/type/for/variable)))
+(define-syntax vector-length-dispatch
+  (er-macro-transformer
+   (lambda (x r t)     
+     (let* ((variable (cadr x))
+            (vtype (caddr x))
+            (form (cadddr x))
+            (precision-prefix (case vtype
+                                ((f32vector) "")
+                                ((f64vector) 'd)
+                                ((s32vector) 'i)
+                                ((u32vector) 'u)
+                                ((u8vector)  'b)))
+            (vector-type? (string->symbol (conc vtype "?")))
+            (vector-length (string->symbol (conc vtype "-length"))))
+       `(begin (,(r 'case) (,vector-length ,variable)
+          ((2) ,(rewrite form variable (conc precision-prefix "vec2")))
+          ((3) ,(rewrite form variable (conc precision-prefix "vec3")))
+          ((4) ,(rewrite form variable (conc precision-prefix "vec4")))))))))
+
+
+
 ;; *** vector constructors
 
 (begin-template
@@ -95,25 +120,6 @@
  (define (cross/T veca vecb) (with-destination (make-T #f) cross/T! veca vecb)))
 
 
-;; (pp (expand '(vector-length-dispatch variable f32vector +/type/for/variable)))
-(define-syntax vector-length-dispatch
-  (er-macro-transformer
-   (lambda (x r t)     
-     (let* ((variable (cadr x))
-            (vtype (caddr x))
-            (form (cadddr x))
-            (precision-prefix (case vtype
-                                ((f32vector) "")
-                                ((f64vector) 'd)
-                                ((s32vector) 'i)
-                                ((u32vector) 'u)
-                                ((u8vector)  'b)))
-            (vector-type? (string->symbol (conc vtype "?")))
-            (vector-length (string->symbol (conc vtype "-length"))))
-       `(begin (,(r 'case) (,vector-length ,variable)
-          ((2) ,(rewrite form variable (conc precision-prefix "vec2")))
-          ((3) ,(rewrite form variable (conc precision-prefix "vec3")))
-          ((4) ,(rewrite form variable (conc precision-prefix "vec4")))))))))
 
 ;; vector-vector or vector-scalar multiplication
 (define (v*/delegate v1 v2)

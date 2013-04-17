@@ -195,3 +195,6 @@
 
  (define (<OP> sqmat)
    ((<OP>/delegate sqmat) sqmat)))
+
+;; is this too simple and easy?
+(define m= equal?)

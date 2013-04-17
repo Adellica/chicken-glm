@@ -172,7 +172,6 @@
     ((s32vector? vec) (vector-length-dispatch vec s32vector <OP>/vec/scalar))
     ((u32vector? vec) (vector-length-dispatch vec u32vector <OP>/vec/scalar))))
 
- ;; TODO: make this not terrible
  (define (v<OP>/delegate v1 v2)
    (if (number? v2)  (<OP>/vec/scalar/delegate v1 v2)
        (cond-template

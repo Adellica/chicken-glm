@@ -459,3 +459,32 @@
  (test (uvec2 10 40)        (m* (uvec2 1 2)     (uvec2 10 20)))
  (test (uvec3 10 40 90)     (m* (uvec3 1 2 3)   (uvec3 10 20 30)))
  (test (uvec4 10 40 90 160) (m* (uvec4 1 2 3 4) (uvec4 10 20 30 40))))
+
+
+(test-group
+ "length/vec"
+ 
+ (test (sqrt 2) (length/vec (vec2 1 1)))
+ (test (sqrt 3) (length/vec (vec3 1 1 1)))
+ (test (sqrt 4) (length/vec (vec4 1 1 1 1)))
+ 
+ (test (sqrt 2) (length/vec (dvec2 1 1)))
+ (test (sqrt 3) (length/vec (dvec3 1 1 1)))
+ (test (sqrt 4) (length/vec (dvec4 1 1 1 1)))
+ 
+ (test 14 (length/vec (ivec2 10 10)))
+ (test 17 (length/vec (ivec3 10 10 10)))
+ (test 20 (length/vec (ivec4 10 10 10 10)))
+ 
+ (test 14 (length/vec (uvec2 10 10)))
+ (test 17 (length/vec (uvec3 10 10 10)))
+ (test 20 (length/vec (uvec4 10 10 10 10)))
+
+ (test 0 (length/vec (bvec2 0 0)))
+ (test 1 (length/vec (bvec2 0 1)))
+ (test 1 (length/vec (bvec2 1 1)))
+ (test 1 (length/vec (bvec2 1 0)))
+ (test 1 (length/vec (bvec3 1 1 1)))
+ (test 1 (length/vec (bvec4 1 1 1 1)))
+
+ )

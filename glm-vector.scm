@@ -142,28 +142,9 @@
 
 
 
-;; vector-vector or vector-scalar multiplication
-(define (v*/delegate v1 v2)
-  
-  (cond-template
-   ;; note: u8vectors not included in glm
-   `((VECTOR f32vector f64vector  s32vector u32vector))
-   
-   ((VECTOR? v1) (if (VECTOR? v2)
-                     (if (= (VECTOR-length v1) (VECTOR-length v2))
-                         (vector-length-dispatch v1 VECTOR */v1/v1)
-                         (error "vector size mismatch" v1 v2))
-                     (if (number? v2)
-                         (vector-length-dispatch v1 VECTOR */v1/scalar)
-                         (error "invalid combo" v1 v2))))
-   
-   (error "invalid operand type" v1)))
-
-(define (v* v1 v2)
-  ((v*/delegate v1 v2) v1 v2))
-
+;; vector-vector or vector-scalar
 (begin-template
- `((<OP> + -))
+ `((<OP> * / + -))
 
  (define (<OP>/vec/scalar/delegate vec scalar)
    (cond
@@ -175,13 +156,15 @@
  (define (v<OP>/delegate v1 v2)
    (if (number? v2)  (<OP>/vec/scalar/delegate v1 v2)
        (cond-template
-        `((VECTOR f32vector f64vector s32vector u32vector u8vector))
+        `((VECTOR f32vector f64vector s32vector u32vector))
         ((VECTOR? v1) (if (VECTOR? v2)
                           (if (= (VECTOR-length v1) (VECTOR-length v2))
                               (vector-length-dispatch v1 VECTOR <OP>/v1/v1)
                               (error "vector dimension mismatch" v1 v2))
-                          (error "must be vector" v2)))
-        (else (error "unknown vector type" v1)))))
+                          (if (number? v2)
+                              (vector-length-dispatch v1 VECTOR <OP>/v1/scalar)
+                              (error "invalid operand types" v1 v2))))
+        (error "unknown vector type" v1))))
 
  (define (v<OP> v1 v2)
    ((v<OP>/delegate v1 v2) v1 v2)))

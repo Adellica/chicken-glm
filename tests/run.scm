@@ -434,6 +434,24 @@
  (test (uvec3 10 20 30)    (m* (uvec3 1 2 3) 10))
  (test (uvec4 10 20 30 40) (m* (uvec4 1 2 3 4) 10)))
 
+(test-group
+ "v/ vector-scalar"
+ 
+ (test (vec2 10 20)       (v/ (vec2 100 200) 10))
+ (test (vec3 10 20 30)    (v/ (vec3 100 200 300) 10))
+ (test (vec4 10 20 30 40) (v/ (vec4 100 200 300 400) 10))
+ ;; the other types probably work too ... :S
+ )
+
+(test-group
+ "v/ vector-vector"
+ 
+ (test (vec2 10 10)       (v/ (vec2 100 200) (vec2 10 20)))
+ (test (vec3 10 10 10)    (v/ (vec3 100 200 300) (vec3 10 20 30)))
+ (test (vec4 10 10 10 10) (v/ (vec4 100 200 300 400) (vec4 10 20 30 40)))
+ ;; the other types probably work too ... :S
+ )
+
 
  
 

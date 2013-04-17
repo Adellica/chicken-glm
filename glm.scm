@@ -27,7 +27,7 @@
      ((dvec dvec2 dvec3 dvec4) 'double)
      ((ivec ivec2 ivec3 ivec4) 'int)
      ((uvec uvec2 uvec3 uvec4) 'unsigned-int)
-     ((bvec bvec2 bvec3 bvec4) 'unsigned-char)
+     ((bvec bvec2 bvec3 bvec4) 'unsigned-byte)
      ((
        mat2 mat2x2 mat2x3 mat2x4
        mat3 mat3x2 mat3x3 mat3x4
@@ -61,7 +61,7 @@
      ((ivec ivec2 ivec3 ivec4) 's32vector)
      ((uvec uvec2 uvec3 uvec4) 'u32vector)
      ((bvec bvec2 bvec3 bvec4) 'u8vector)
-     ((float double int unsigned-int unsigned-char) type)
+     ((float double int unsigned-int unsigned-byte) type)
      (else (error "cannot convert to scheme-type" type))))
 
  (define glm#glmtype->schemetype glmtype->schemetype))
@@ -91,7 +91,7 @@
       dmat3 dmat3x2 dmat3x3 dmat3x4
       dmat4 dmat4x2 dmat4x3 dmat4x4 )
      (conc "(" "*(glm::" glmtype "*)" var ")"))
-    ((float int double unsigned-int unsigned-char) var) ;; primitives don't need cast
+    ((float int double unsigned-int unsigned-byte) var) ;; primitives don't need cast
     (else (error "cannot cast type" glmtype))))
 
 

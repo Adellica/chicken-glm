@@ -488,3 +488,29 @@
  (test 1 (length/vec (bvec4 1 1 1 1)))
 
  )
+(test-group
+ "dot"
+ 
+ (test  50.0 (dot (vec2 1 2)     (vec2 10 20)))
+ (test 140.0 (dot (vec3 1 2 3)   (vec3 10 20 30)))
+ (test 300.0 (dot (vec4 1 2 3 4) (vec4 10 20 30 40)))
+
+ (test  50.0 (dot (dvec2 1 2)     (dvec2 10 20)))
+ (test 140.0 (dot (dvec3 1 2 3)   (dvec3 10 20 30)))
+ (test 300.0 (dot (dvec4 1 2 3 4) (dvec4 10 20 30 40)))
+  
+ (test  50.0 (dot (ivec2 1 2)     (ivec2 10 20)))
+ (test 140.0 (dot (ivec3 1 2 3)   (ivec3 10 20 30)))
+ (test 300.0 (dot (ivec4 1 2 3 4) (ivec4 10 20 30 40)))
+  
+ (test  50.0 (dot (uvec2 1 2)     (uvec2 10 20)))
+ (test 140.0 (dot (uvec3 1 2 3)   (uvec3 10 20 30)))
+ (test 300.0 (dot (uvec4 1 2 3 4) (uvec4 10 20 30 40)))
+  
+ (test 0 (dot (bvec2 0 1)     (bvec2 1 0)))
+ (test 1 (dot (bvec3 1 2 3)   (bvec3 10 20 30)))
+ (test 1 (dot (bvec4 1 2 3 4) (bvec4 10 20 30 40)))
+
+ )
+
+

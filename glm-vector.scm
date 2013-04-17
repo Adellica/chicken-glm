@@ -101,6 +101,22 @@
    `((VECTOR f32vector f64vector  s32vector u32vector u8vector))
    ((VECTOR? v) ((vector-length-dispatch v VECTOR length/v) v))
    (error "unknown vector-type" v)))
+
+(begin-template
+ `((<OP> dot distance))
+ 
+ (define (<OP> v1 v2)
+   (cond-template
+    `((VECTOR f32vector f64vector   s32vector u32vector u8vector))
+    ((VECTOR? v2) (if (VECTOR? v2)
+                      (if (= (VECTOR-length v1) (VECTOR-length v2))
+                          ((vector-length-dispatch v1 VECTOR <OP>/v1) v1 v2)
+                          (error "vector length mismatch" v1 v2))
+                      (error "operand two must be vector" v2)))
+    (error "unknown vector-type" v1))))
+
+
+
 ;; vector-scalar infix operators (excludes bvec types)
 (begin-template
  `((T  vec2  vec3  vec4

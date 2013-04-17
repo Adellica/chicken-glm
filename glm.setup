@@ -6,5 +6,6 @@
 
 
 (install-extension 'glm
-                   '("glm.so" "glm.import.so"))
+                   '("glm.so" "glm.import.so")
+                   `((version "1.0")))
 

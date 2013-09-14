@@ -7,6 +7,12 @@ These bindings are not complete, but should cover the basic matrix and vector ne
 
 ## Quickstart
 
+Install with:
+```bash
+$ chicken-install glm
+```
+Then run `csi` and try this:
+
 ```scheme
 #> (use glm)
 ; loading /usr/local/lib/chicken/6/glm.import.so ...

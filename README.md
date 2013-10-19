@@ -87,6 +87,17 @@ Then run `csi` and try this:
  #u32(1 2)
 ```
 
+Working with OpenGL, you might do something like shown below. The `mat` record holds a raw column-major 
+srfi-vector and a slot with the number of columns. 
+Use `mat-data` to get hold of the raw data (which is what OpenGL wants).
+
+```scheme
+(glUniformMatrix4fv transl 1 GL_FALSE
+                      (mat-data (rotate (mat4 1)
+                                        some-angle
+                                        (vec3 0 0 1))))
+```
+
 # TODO
 
 - Add column-selectors, eg `(mat-col mat3x4 2) => vec4`

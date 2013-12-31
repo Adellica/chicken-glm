@@ -5,6 +5,9 @@
 Chicken Scheme bindings for [GLM]. [GLM] is a matrix and vector math library inspired by GLSL. 
 These bindings are not complete, but should cover the basic matrix and vector needs within the graphics-domain.
 
+This egg embeds the headers files of `glm` version 0.9.4.6-2 for
+convenience. In particular, this makes cross-compilation easier.
+
 ## Quickstart
 
 Install with:

@@ -1,11 +1,10 @@
-
+;; -*- scheme -*-
 
 (compile -s -c++ glm.scm -J)
 (compile -s -c++ glm.import.scm)
 
-
-
 (install-extension 'glm
                    '("glm.so" "glm.import.so")
-                   `((version "1.0")))
+                   `((version "1.0")
+                     (version "2.0")))
 

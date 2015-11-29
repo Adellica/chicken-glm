@@ -2,3 +2,4 @@
 (uri targz "https://github.com/Adellica/chicken-glm/tarball/{egg-release}")
 (release "1.0")
 (release "2.0")
+(release "3.0")

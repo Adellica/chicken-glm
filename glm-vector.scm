@@ -81,12 +81,12 @@
 
  ;; vector unary operators
  (begin-template `((OP
-              abs      ceil ;;  floor       fract round roundEven  sign
-              sin           ;;  cos  tan  sinh  cosh  tanh
-              ;;   asin acos atan asinh acosh atanh
+              abs      ceil  floor       fract round roundEven  sign
+              sin      cos  tan  sinh  cosh  tanh
+              asin acos atan asinh acosh atanh
               degrees  radians
-              ;;   exp      exp2     inversesqrt log   log2  sqrt
-              ;;   normalize
+              exp      exp2     inversesqrt log   log2  sqrt
+              normalize
               ))
            (define OP/T! (glm void T "=" "glm::OP(" T ")"))
            (define (OP/T vec) (with-destination (make-T #f) OP/T! vec)))
